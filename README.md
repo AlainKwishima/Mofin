@@ -1,6 +1,3 @@
-<div align="center">
-  <img src="src/assets/splash.png" alt="Mofin Banner" width="200" style="border-radius: 20px;" />
-
   # Mofin
 
   **The smartest way to track your mobile money in Kenya.**
