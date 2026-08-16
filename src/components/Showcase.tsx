@@ -1,0 +1,47 @@
+import React from 'react';
+import homeImg from '../assets/home.png';
+import filtersImg from '../assets/filters.png';
+import profileImg from '../assets/profile.png';
+import budgetImg from '../assets/budget.png';
+import exportImg from '../assets/export.png';
+
+export const Showcase: React.FC = () => {
+  return (
+    <section className="showcase reveal">
+      <div className="container">
+        <div className="section-header" style={{ alignItems: 'center', textAlign: 'center' }}>
+          <span className="uppercase-label">TAKE A LOOK</span>
+          <h2 className="heading">Built for Real Life</h2>
+          <p className="body-lg text-steel">Clean, simple, and designed for Kenyan mobile users.</p>
+        </div>
+      </div>
+      <div className="carousel">
+        <div className="carousel-item" style={{ paddingLeft: 'max(var(--spacing-24), calc((100vw - 1200px) / 2))' }}>
+          <div className="phone-frame">
+            <img src={homeImg} alt="Home Dashboard" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+        <div className="carousel-item">
+          <div className="phone-frame">
+            <img src={filtersImg} alt="Transaction Filters" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+        <div className="carousel-item">
+          <div className="phone-frame">
+            <img src={profileImg} alt="Profile and Settings" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+        <div className="carousel-item">
+          <div className="phone-frame">
+            <img src={budgetImg} alt="Budget Screen" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+        <div className="carousel-item" style={{ paddingRight: 'max(var(--spacing-24), calc((100vw - 1200px) / 2))' }}>
+          <div className="phone-frame">
+            <img src={exportImg} alt="Export Report" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};

@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "version_code": 1,
+  "download_url": "https://mofin.app/download/mofin-v1.0.0.apk",
+  "file_size": "8.5 MB",
+  "min_android_version": "8.0",
+  "release_date": "2026-08-11",
+  "force_update": false,
+  "release_notes": [
+    "M-Pesa transaction detection",
+    "On-device AI categorization",
+    "Offline-first dashboard",
+    "Budget tracking with alerts",
+    "PDF report export"
+  ],
+  "model": {
+    "latest_version": 1,
+    "model_url": "https://mofin.app/models/mofin-model-v1.tflite"
+  }
+}
