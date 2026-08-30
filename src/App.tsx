@@ -1,54 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { TrustStrip } from './components/TrustStrip';
-import { Features } from './components/Features';
-import { HowItWorks } from './components/HowItWorks';
-import { Showcase } from './components/Showcase';
-import { DownloadSection } from './components/DownloadSection';
-import { Installation } from './components/Installation';
-import { Changelog } from './components/Changelog';
-import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
+import { Home } from './pages/Home';
+import { Terms } from './pages/Terms';
+import { Privacy } from './pages/Privacy';
+import { Contact } from './pages/Contact';
 
 export default function App() {
-  useEffect(() => {
-    const revealElements = document.querySelectorAll('.reveal');
-    
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
-    });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-
-    return () => {
-      revealElements.forEach(el => revealObserver.unobserve(el));
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen bg-[#f4f4f5]">
-      <Navbar />
-      <main>
-        <Hero />
-        <TrustStrip />
-        <Features />
-        <HowItWorks />
-        <Showcase />
-        <DownloadSection />
-        <Installation />
-        <Changelog />
-        <FAQ />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-[#f4f4f5] flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }

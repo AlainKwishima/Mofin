@@ -9,7 +9,7 @@ const releases: VersionRelease[] = [
     date: 'August 2026',
     features: [
       'M-Pesa transaction detection',
-      'On-device AI categorization',
+      'On-device algorithmic categorization',
       'Offline-first dashboard & reports',
       'Budget tracking with alerts',
       'PDF export',

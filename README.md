@@ -17,7 +17,7 @@ This repository contains the landing page and marketing website for the Mofin An
 ## 🌟 Features
 
 *   **100% Offline Support**: Core functionality works without an internet connection.
-*   **AI Categorized**: Smart categorization of your spending (Grocery, Transport, Income, etc.).
+*   **Algorithmically Categorized**: Smart categorization of your spending (Grocery, Transport, Income, etc.).
 *   **Bank-Level Security**: Your data remains private and secure.
 *   **Modern Design**: Clean, responsive, and intuitive user interface tailored for Kenyan mobile users.
 *   **Budgeting & Reports**: Set budgets and generate PDF/CSV expense reports.
@@ -47,7 +47,7 @@ This repository contains the landing page and marketing website for the Mofin An
         ```bash
         cp .env.example .env.local
         ```
-    *   Open `.env.local` and add your required keys (e.g., `GEMINI_API_KEY` for AI features).
+    *   Open `.env.local` and add your required keys (e.g., `GEMINI_API_KEY` for algorithmic features).
 
 4.  Start the development server:
     ```bash

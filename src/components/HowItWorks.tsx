@@ -20,7 +20,7 @@ const steps: Step[] = [
   },
   {
     number: '④',
-    title: 'AI Organizes',
+    title: 'Algorithm Organizes',
     description: 'Mofin categorizes it into Grocery, Transport, Income, etc.',
   },
 ];

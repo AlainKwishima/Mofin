@@ -17,8 +17,7 @@ export const Hero: React.FC = () => {
         <div className="hero-content">
           <span className="badge-green">Now Available for Android</span>
           <h1 className="display hero-title">
-            <span>Track Your</span>
-            <span>M-Pesa Spending</span>
+            <span>Track Your Spendings</span>
             <span><span className="text-ember">Automatically.</span></span>
           </h1>
           <p className="body-lg text-steel">
@@ -48,7 +47,7 @@ export const Hero: React.FC = () => {
             </div>
             <div className="hero-trust-item">
               <Sparkles size={16} color="#09090b" />
-              AI Categorized
+              Algorithmically Categorized
             </div>
             <div className="hero-trust-item">
               <Shield size={16} color="#09090b" />

@@ -11,11 +11,11 @@ const featuresData: Feature[] = [
     tag: 'Offline-First',
   },
   {
-    id: 'ai',
-    iconName: 'ai',
-    title: 'AI That Learns Your Spending',
-    description: "Type 'Rice' and Mofin knows it's Grocery. Type 'Salary' and it knows it's Income. The more you use it, the smarter it gets — all on your phone.",
-    tag: 'On-Device AI',
+    id: 'algorithm',
+    iconName: 'algorithm',
+    title: 'An Algorithm That Learns Your Spending',
+    description: "Mofin gets smarter over time. Just tag 'Naivas' as 'Groceries' once, and the algorithm will handle the rest automatically.",
+    tag: 'Smart Algorithm',
   },
   {
     id: 'offline',
@@ -51,7 +51,7 @@ export const Features: React.FC = () => {
   const renderIcon = (iconName: string) => {
     switch (iconName) {
       case 'sms': return <MessageSquare size={24} />;
-      case 'ai': return <Sparkles size={24} />;
+      case 'algorithm': return <Sparkles size={24} />;
       case 'offline': return <WifiOff size={24} />;
       case 'analytics': return <Activity size={24} />;
       case 'budget': return <Target size={24} />;
