@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Hero } from '../components/Hero';
-import { TrustStrip } from '../components/TrustStrip';
 import { Features } from '../components/Features';
 import { HowItWorks } from '../components/HowItWorks';
 import { Showcase } from '../components/Showcase';
