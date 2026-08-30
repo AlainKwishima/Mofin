@@ -8,7 +8,7 @@ const releases: VersionRelease[] = [
     isLatest: true,
     date: 'August 2026',
     features: [
-      'M-Pesa transaction detection',
+      'Mobile money transaction detection',
       'On-device algorithmic categorization',
       'Offline-first dashboard & reports',
       'Budget tracking with alerts',

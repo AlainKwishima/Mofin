@@ -8,7 +8,7 @@ export const TrustStrip: React.FC = () => {
   return (
     <div className="trust-strip reveal">
       <div className="container trust-strip-inner">
-        <div className="caption text-fog">Works with all Kenyan mobile money providers</div>
+        <div className="caption text-fog">Works with major mobile money providers</div>
         <div className="trust-logos">
           <img src={mpesaLogo} alt="M-PESA" className="h-6 md:h-8 w-auto object-contain" />
           <img src={airtelLogo} alt="AIRTEL MONEY" className="h-6 md:h-8 w-auto object-contain" />

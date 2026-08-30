@@ -47,7 +47,7 @@ export const Contact: React.FC = () => {
               </div>
               <div>
                 <h3 className="subheading">Office</h3>
-                <p className="body text-steel" style={{ marginTop: 'var(--spacing-4)' }}>Nairobi, Kenya</p>
+                <p className="body text-steel" style={{ marginTop: 'var(--spacing-4)' }}>Global Support</p>
               </div>
             </div>
           </div>

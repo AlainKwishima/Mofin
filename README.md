@@ -1,6 +1,9 @@
+<div align="center">
+  <img src="src/assets/splash.png" alt="Mofin Banner" width="200" style="border-radius: 20px;" />
+
   # Mofin
 
-  **The smartest way to track your mobile money in Kenya.**
+  **The smartest way to track your mobile money.**
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![React](https://img.shields.io/badge/React-19.0-blue.svg)](https://reactjs.org/)
@@ -10,7 +13,7 @@
 
 <br />
 
-Mofin reads your M-Pesa, Airtel Money, and Equitel messages to track every shilling you spend or receive. No manual entry. Works offline. Completely private.
+Mofin reads your mobile money messages to track every transaction you make. No manual entry. Works offline. Completely private.
 
 This repository contains the landing page and marketing website for the Mofin Android application, built with React, Vite, and Tailwind CSS.
 
@@ -19,7 +22,7 @@ This repository contains the landing page and marketing website for the Mofin An
 *   **100% Offline Support**: Core functionality works without an internet connection.
 *   **Algorithmically Categorized**: Smart categorization of your spending (Grocery, Transport, Income, etc.).
 *   **Bank-Level Security**: Your data remains private and secure.
-*   **Modern Design**: Clean, responsive, and intuitive user interface tailored for Kenyan mobile users.
+*   **Modern Design**: Clean, responsive, and intuitive user interface tailored for mobile users.
 *   **Budgeting & Reports**: Set budgets and generate PDF/CSV expense reports.
 
 ## 🚀 Getting Started

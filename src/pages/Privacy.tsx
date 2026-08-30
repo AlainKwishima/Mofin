@@ -23,7 +23,7 @@ export const Privacy: React.FC = () => {
           <section>
             <h2 className="subheading" style={{ marginBottom: 'var(--spacing-12)' }}>Information We Collect (and don't collect)</h2>
             <h3 className="body-lg" style={{ fontWeight: 600, color: 'var(--color-obsidian)', marginTop: 'var(--spacing-16)', marginBottom: 'var(--spacing-8)' }}>1. SMS and Transaction Data</h3>
-            <p className="body text-iron">Mofin requires access to your SMS messages to detect and track mobile money transactions (like M-Pesa). <strong>This data is read locally on your device and is never uploaded to our servers.</strong> We do not sell, share, or analyze your personal financial data.</p>
+            <p className="body text-iron">Mofin requires access to your SMS messages to detect and track mobile money transactions (like your local mobile money provider). <strong>This data is read locally on your device and is never uploaded to our servers.</strong> We do not sell, share, or analyze your personal financial data.</p>
             
             <h3 className="body-lg" style={{ fontWeight: 600, color: 'var(--color-obsidian)', marginTop: 'var(--spacing-16)', marginBottom: 'var(--spacing-8)' }}>2. Smart Algorithm Features</h3>
             <p className="body text-iron">If you use algorithmic categorization features, the specific text of the transaction and your provided label may be securely sent to the configured algorithm API (such as Google Gemini) strictly for categorization purposes. You can configure your own API keys for complete control.</p>

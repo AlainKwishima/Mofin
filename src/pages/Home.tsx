@@ -35,7 +35,6 @@ export const Home: React.FC = () => {
   return (
     <>
       <Hero />
-      <TrustStrip />
       <Features />
       <HowItWorks />
       <Showcase />

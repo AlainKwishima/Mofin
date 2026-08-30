@@ -22,7 +22,7 @@ export const Terms: React.FC = () => {
 
           <section>
             <h2 className="subheading" style={{ marginBottom: 'var(--spacing-12)' }}>2. Use of the App</h2>
-            <p className="body text-iron">Mofin is a personal finance tool designed to read transactional SMS notifications (such as M-Pesa, Airtel Money, etc.) stored locally on your device for the purpose of tracking and categorizing your expenses.</p>
+            <p className="body text-iron">Mofin is a personal finance tool designed to read transactional SMS notifications (from supported mobile money services) stored locally on your device for the purpose of tracking and categorizing your expenses.</p>
             <ul className="body text-iron" style={{ listStyleType: 'disc', paddingLeft: '24px', marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <li>You grant the App permission to read your SMS notifications locally to function correctly.</li>
               <li>You are responsible for the security of your device and the data stored within the App.</li>

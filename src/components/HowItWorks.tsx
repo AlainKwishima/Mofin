@@ -6,7 +6,7 @@ const steps: Step[] = [
   {
     number: '①',
     title: 'You Transact',
-    description: 'Send or receive money via M-Pesa as usual.',
+    description: 'Send or receive mobile money as usual.',
   },
   {
     number: '②',

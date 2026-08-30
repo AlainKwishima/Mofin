@@ -4,17 +4,17 @@ import { Feature } from '../types';
 
 const featuresData: Feature[] = [
   {
-    id: 'sms',
+    id: 'auto-tracking',
     iconName: 'sms',
-    title: 'Reads Your SMS Automatically',
-    description: 'Mofin detects M-Pesa, Airtel Money, and Equitel transaction messages the moment they arrive. No typing, no screenshots, no hassle.',
+    title: 'Zero Manual Entry',
+    description: 'Mofin detects mobile money transaction messages the moment they arrive. No typing, no screenshots, no hassle.',
     tag: 'Offline-First',
   },
   {
     id: 'algorithm',
     iconName: 'algorithm',
     title: 'An Algorithm That Learns Your Spending',
-    description: "Mofin gets smarter over time. Just tag 'Naivas' as 'Groceries' once, and the algorithm will handle the rest automatically.",
+    description: "Mofin gets smarter over time. Just tag a 'Supermarket' as 'Groceries' once, and the algorithm will handle the rest automatically.",
     tag: 'Smart Algorithm',
   },
   {

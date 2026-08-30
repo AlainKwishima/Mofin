@@ -16,7 +16,7 @@ const faqItems: FAQItem[] = [
   {
     id: 'faq-3',
     question: 'Which mobile money providers are supported?',
-    answer: 'Currently M-Pesa (Safaricom), Airtel Money, Equitel, and MTN MoMo. We are adding more providers based on user feedback.',
+    answer: 'We support most major mobile money and bank SMS formats. We are continuously adding more providers based on user feedback.',
   },
   {
     id: 'faq-4',

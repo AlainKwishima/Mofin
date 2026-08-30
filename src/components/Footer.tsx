@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
               Mofin<span className="nav-logo-dot"></span>
             </Link>
             <p style={{ marginTop: 'var(--spacing-12)', fontSize: '14px', color: 'var(--color-ash)' }}>
-              Track every shilling.
+              Track every expense.
             </p>
           </div>
           <div>
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <div>© 2026 Mofin. Built in Kenya.</div>
+          <div>© 2026 Mofin.</div>
           <div className="flex gap-4">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
