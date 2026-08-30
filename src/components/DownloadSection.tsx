@@ -10,7 +10,7 @@ export const DownloadSection: React.FC = () => {
         <p className="body-lg text-steel">Download the APK file and install it directly. It takes less than 2 minutes.</p>
         
         <div style={{ marginTop: 'var(--spacing-24)' }}>
-          <a href="#" className="btn-primary btn-primary-large" style={{ fontSize: '16px', padding: '16px 32px', borderRadius: '16px' }}>
+          <a href="/mofin.apk" download className="btn-primary btn-primary-large" style={{ fontSize: '16px', padding: '16px 32px', borderRadius: '16px' }}>
             <Download size={24} />
             Download APK
           </a>
