@@ -26,7 +26,7 @@ export const Contact: React.FC = () => {
               <div>
                 <h3 className="subheading">Email Support</h3>
                 <p className="body text-steel" style={{ marginTop: 'var(--spacing-4)' }}>For general inquiries and technical support:</p>
-                <a href="mailto:support@mofin.app" className="body" style={{ color: 'var(--color-ember)', fontWeight: 500, display: 'inline-block', marginTop: 'var(--spacing-8)' }}>support@mofin.app</a>
+                <a href="mailto:micodan24@gmail.com" className="body" style={{ color: 'var(--color-ember)', fontWeight: 500, display: 'inline-block', marginTop: 'var(--spacing-8)' }}>micodan24@gmail.com</a>
               </div>
             </div>
             

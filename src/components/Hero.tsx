@@ -21,7 +21,7 @@ export const Hero: React.FC = () => {
             <span><span className="text-ember">Automatically.</span></span>
           </h1>
           <p className="body-lg text-steel">
-            Mofin reads your mobile money messages to track every coin you spend or receive. No manual entry. Works offline. Completely private.
+            Mofin reads your mobile money messages to track every coin you spend or receive. No manual entry. Offline Friendly. Completely private.
           </p>
           <div className="hero-actions">
             <a 

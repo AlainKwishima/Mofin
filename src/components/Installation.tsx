@@ -10,7 +10,7 @@ const installSteps: InstallStep[] = [
   {
     number: 2,
     title: 'Allow Unknown Sources',
-    description: "When prompted, tap 'Settings' and enable 'Allow from this source' or 'Install unknown apps.' This is safe — Mofin is verified and signed.",
+    description: "When prompted, tap 'Settings' and enable 'Allow from this source' or 'Install unknown apps.' This is safe, Mofin is verified and signed.",
   },
   {
     number: 3,

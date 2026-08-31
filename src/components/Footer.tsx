@@ -51,7 +51,7 @@ export const Footer: React.FC = () => {
           <div>
             <div className="footer-col-title">Connect</div>
             <div className="footer-links">
-              <a href="mailto:support@mofin.app">support@mofin.app</a>
+              <a href="mailto:micodan24@gmail.com">micodan24@gmail.com</a>
               <a href="#">Twitter / X</a>
               <a href="#">GitHub</a>
             </div>
