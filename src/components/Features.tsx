@@ -66,7 +66,7 @@ export const Features: React.FC = () => {
         <div className="section-header">
           <span className="uppercase-label">FEATURES</span>
           <h2 className="heading">Your Money, Understood</h2>
-          <p className="body-lg text-steel">Everything you need to know about your spending — without the complexity.</p>
+          <p className="body-lg text-steel">Everything you need to know about your spending, without the complexity.</p>
         </div>
         <div className="features-grid">
           {featuresData.map((item) => (

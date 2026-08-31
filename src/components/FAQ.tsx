@@ -6,7 +6,7 @@ const faqItems: FAQItem[] = [
   {
     id: 'faq-1',
     question: 'Is Mofin safe to use?',
-    answer: 'Absolutely. Mofin stores all your financial data encrypted on your phone using bank-grade encryption (AES-256). We never see your transactions — everything stays on your device unless you choose to back it up.',
+    answer: 'Absolutely. Mofin stores all your financial data encrypted on your phone using bank-grade encryption (AES-256). We never see your transactions, everything stays on your device unless you choose to back it up.',
   },
   {
     id: 'faq-2',
@@ -26,7 +26,7 @@ const faqItems: FAQItem[] = [
   {
     id: 'faq-5',
     question: 'Is it really free?',
-    answer: 'Yes. Mofin is free for personal use. No ads, no subscriptions, no hidden fees. We may introduce premium features for small businesses in the future, but the core tracker will always be free.',
+    answer: 'Yes. Mofin is free for personal use. No ads, no subscriptions, no hidden fees. We may introduce premium features for small businesses in the future, but the core tracker will be free.',
   },
   {
     id: 'faq-6',

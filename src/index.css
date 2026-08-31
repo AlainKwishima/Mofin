@@ -138,6 +138,18 @@ img, svg {
   padding: var(--spacing-16) var(--spacing-32);
 }
 
+.btn-primary:disabled,
+.btn-primary.btn-primary-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary:disabled:hover,
+.btn-primary.btn-primary-disabled:hover {
+  background-color: var(--color-obsidian);
+}
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;
