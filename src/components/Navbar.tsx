@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Download, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLaunchCountdown } from '../hooks/useLaunchCountdown';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isLive } = useLaunchCountdown();
+  const isHome = location.pathname === '/';
+  const [overlayNav, setOverlayNav] = useState(isHome);
+
+  useEffect(() => {
+    if (!isHome) {
+      setOverlayNav(false);
+      return;
+    }
+
+    const updateNavbar = () => {
+      setOverlayNav(window.scrollY < window.innerHeight * 0.9);
+    };
+
+    updateNavbar();
+    window.addEventListener('scroll', updateNavbar, { passive: true });
+    window.addEventListener('resize', updateNavbar);
+
+    return () => {
+      window.removeEventListener('scroll', updateNavbar);
+      window.removeEventListener('resize', updateNavbar);
+    };
+  }, [isHome]);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -34,7 +58,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="navbar" id="top-nav">
+      <nav className={`navbar${overlayNav ? ' navbar--overlay' : ''}`} id="top-nav">
         <div className="container nav-inner">
           <Link to="/" onClick={(e) => handleScroll(e as any, '#')} className="nav-logo">
             Mofin<span className="nav-logo-dot"></span>
@@ -45,12 +69,19 @@ export const Navbar: React.FC = () => {
             <a href="/#download" onClick={(e) => handleScroll(e, '#download')}>Download</a>
             <a href="/#changelog" onClick={(e) => handleScroll(e, '#changelog')}>Changelog</a>
           </div>
-          <div className="nav-actions">
-            <a href="/#download" onClick={(e) => handleScroll(e, '#download')} className="btn-primary" style={{ padding: '12px 16px' }}>
-              <Download size={16} />
-              Download APK
-            </a>
-          </div>
+          {isLive && (
+            <div className="nav-actions">
+              <a
+                href="/#download"
+                onClick={(e) => handleScroll(e, '#download')}
+                className="btn-primary"
+                style={{ padding: '12px 16px' }}
+              >
+                <Download size={16} />
+                Download APK
+              </a>
+            </div>
+          )}
           <button 
             className="hamburger" 
             onClick={() => setMobileMenuOpen(true)} 
@@ -83,15 +114,17 @@ export const Navbar: React.FC = () => {
           <a href="/#download" onClick={(e) => handleScroll(e, '#download')}>Download</a>
           <a href="/#changelog" onClick={(e) => handleScroll(e, '#changelog')}>Changelog</a>
         </div>
-        <a 
-          href="/#download" 
-          onClick={(e) => handleScroll(e, '#download')} 
-          className="btn-primary" 
-          style={{ marginTop: 'auto', justifyContent: 'center' }}
-        >
-          <Download size={18} />
-          Download APK
-        </a>
+        {isLive && (
+          <a
+            href="/#download"
+            onClick={(e) => handleScroll(e, '#download')}
+            className="btn-primary"
+            style={{ marginTop: 'auto', justifyContent: 'center' }}
+          >
+            <Download size={18} />
+            Download APK
+          </a>
+        )}
       </div>
     </>
   );
