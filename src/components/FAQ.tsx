@@ -24,6 +24,23 @@ const faqItems: FAQItem[] = [
     answer: 'Google Play has strict policies around SMS-reading apps. Rather than compromise on features, we are distributing Mofin directly. The APK is signed, verified, and completely safe to install.',
   },
   {
+    id: 'faq-install',
+    question: 'How do I install the APK file?',
+    answer: (
+      <div>
+        <p style={{ marginBottom: 'var(--spacing-12)' }}>
+          Since Mofin is not distributed through the Play Store, Android will ask for your permission to install it. Here is how to do it safely:
+        </p>
+        <ol style={{ paddingLeft: 'var(--spacing-20)', display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)' }}>
+          <li><strong>Download:</strong> Tap the "Download APK" button and save the file.</li>
+          <li><strong>Open:</strong> Tap on the downloaded file from your notifications or Downloads folder.</li>
+          <li><strong>Allow Unknown Apps:</strong> If prompted, tap "Settings" and toggle on "Allow from this source".</li>
+          <li><strong>Bypass Play Protect:</strong> If a Play Protect warning appears, tap <strong>"More details"</strong>, then tap <strong>"Install anyway"</strong>.</li>
+        </ol>
+      </div>
+    ),
+  },
+  {
     id: 'faq-5',
     question: 'Is it really free?',
     answer: 'Yes. Mofin is free for personal use. No ads, no subscriptions, no hidden fees. We may introduce premium features for small businesses in the future, but the core tracker will be free.',

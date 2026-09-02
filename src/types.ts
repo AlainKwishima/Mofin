@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface Feature {
   id: string;
   iconName: string;
@@ -29,5 +31,5 @@ export interface VersionRelease {
 export interface FAQItem {
   id: string;
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
