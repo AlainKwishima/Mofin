@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, Check, Sparkles, Shield } from 'lucide-react';
-import homeImg from '../assets/home.png';
+import homeImg from '../assets/home.jpeg';
 
 export const Hero: React.FC = () => {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {

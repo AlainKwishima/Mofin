@@ -1,9 +1,11 @@
 import React from 'react';
-import homeImg from '../assets/home.png';
-import filtersImg from '../assets/filters.png';
-import profileImg from '../assets/profile.png';
-import budgetImg from '../assets/budget.png';
-import exportImg from '../assets/export.png';
+import homeImg from '../assets/home.jpeg';
+import transactionsImg from '../assets/transactions.jpeg';
+import txDetailImg from '../assets/transaction-detail.jpeg';
+import analyticsImg from '../assets/analytics.jpeg';
+import budgetImg from '../assets/budget.jpeg';
+import exportImg from '../assets/export.jpeg';
+import profileImg from '../assets/profile.jpeg';
 
 export const Showcase: React.FC = () => {
   return (
@@ -23,12 +25,17 @@ export const Showcase: React.FC = () => {
         </div>
         <div className="carousel-item">
           <div className="phone-frame">
-            <img src={filtersImg} alt="Transaction Filters" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+            <img src={transactionsImg} alt="Transaction List" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
           </div>
         </div>
         <div className="carousel-item">
           <div className="phone-frame">
-            <img src={profileImg} alt="Profile and Settings" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+            <img src={txDetailImg} alt="Transaction Detail" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+        <div className="carousel-item">
+          <div className="phone-frame">
+            <img src={analyticsImg} alt="Analytics and Trends" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
           </div>
         </div>
         <div className="carousel-item">
@@ -36,9 +43,14 @@ export const Showcase: React.FC = () => {
             <img src={budgetImg} alt="Budget Screen" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
           </div>
         </div>
-        <div className="carousel-item" style={{ paddingRight: 'max(var(--spacing-24), calc((100vw - 1200px) / 2))' }}>
+        <div className="carousel-item">
           <div className="phone-frame">
             <img src={exportImg} alt="Export Report" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+          </div>
+        </div>
+        <div className="carousel-item" style={{ paddingRight: 'max(var(--spacing-24), calc((100vw - 1200px) / 2))' }}>
+          <div className="phone-frame">
+            <img src={profileImg} alt="Profile and Settings" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
           </div>
         </div>
       </div>
