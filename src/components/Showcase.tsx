@@ -11,7 +11,7 @@ export const Showcase: React.FC = () => {
       <div className="container">
         <div className="section-header" style={{ alignItems: 'center', textAlign: 'center' }}>
           <span className="uppercase-label">TAKE A LOOK</span>
-          <h2 className="heading-sm" style={{ marginBottom: 'var(--spacing-16)' }}>See Mofin in Action</h2>
+          <h2 className="heading-sm" style={{ marginBottom: 'var(--spacing-16)' }}>Every Screen, Thoughtfully Designed</h2>
           <p className="body-lg text-steel">Clean, simple, and designed for all mobile users.</p>
         </div>
       </div>

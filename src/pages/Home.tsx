@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Hero } from '../components/Hero';
 import { Features } from '../components/Features';
 import { HowItWorks } from '../components/HowItWorks';
+import { DemoVideo } from '../components/DemoVideo';
 import { Showcase } from '../components/Showcase';
 import { DownloadSection } from '../components/DownloadSection';
 import { Installation } from '../components/Installation';
@@ -33,6 +34,7 @@ export const Home: React.FC = () => {
 
   return (
     <>
+      <DemoVideo />
       <Hero />
       <Features />
       <HowItWorks />

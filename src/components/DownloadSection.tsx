@@ -2,16 +2,27 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Download, Check } from 'lucide-react';
 import versionInfo from '../../version.json';
+import { LAUNCH_DATE_LABEL } from '../constants/launch';
+import { useLaunchCountdown } from '../hooks/useLaunchCountdown';
+import { LaunchCountdown } from './LaunchCountdown';
 
 export const DownloadSection: React.FC = () => {
   const [hasAgreed, setHasAgreed] = useState(false);
+  const { isLive } = useLaunchCountdown();
+  const canDownload = isLive && hasAgreed;
 
   return (
     <section id="download" className="download-section reveal">
       <div className="container-sm download-inner">
-        <span className="badge-green">Free Download, No Play Store Required</span>
+        <span className="badge-green">{isLive ? 'Free Download, No Play Store Required' : 'Coming Soon'}</span>
         <h2 className="heading-lg">Get Mofin on Your Phone</h2>
-        <p className="body-lg text-steel">Download the APK file and install it directly. It takes less than 2 minutes.</p>
+        <p className="body-lg text-steel">
+          {isLive
+            ? 'Download the APK file and install it directly. It takes less than 2 minutes.'
+            : `The APK will be available for download on ${LAUNCH_DATE_LABEL}. Watch the demo above while you wait.`}
+        </p>
+
+        {!isLive && <LaunchCountdown variant="compact" />}
 
         <label
           htmlFor="download-agreement"
@@ -23,13 +34,15 @@ export const DownloadSection: React.FC = () => {
             marginTop: 'var(--spacing-8)',
             maxWidth: '520px',
             textAlign: 'left',
-            cursor: 'pointer',
+            cursor: isLive ? 'pointer' : 'not-allowed',
+            opacity: isLive ? 1 : 0.55,
           }}
         >
           <input
             id="download-agreement"
             type="checkbox"
             checked={hasAgreed}
+            disabled={!isLive}
             onChange={(e) => setHasAgreed(e.target.checked)}
             style={{
               marginTop: '3px',
@@ -37,7 +50,7 @@ export const DownloadSection: React.FC = () => {
               height: '18px',
               accentColor: 'var(--color-ember)',
               flexShrink: 0,
-              cursor: 'pointer',
+              cursor: isLive ? 'pointer' : 'not-allowed',
             }}
           />
           <span className="body text-steel">
@@ -54,7 +67,7 @@ export const DownloadSection: React.FC = () => {
         </label>
 
         <div style={{ marginTop: 'var(--spacing-16)' }}>
-          {hasAgreed ? (
+          {canDownload ? (
             <a
               href={versionInfo.download_url}
               className="btn-primary btn-primary-large"
@@ -73,7 +86,7 @@ export const DownloadSection: React.FC = () => {
               aria-describedby="download-agreement"
             >
               <Download size={24} />
-              Download APK
+              {isLive ? 'Download APK' : 'Download Opens Soon'}
             </button>
           )}
           <div className="caption text-fog" style={{ marginTop: 'var(--spacing-12)' }}>

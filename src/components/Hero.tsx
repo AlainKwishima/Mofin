@@ -1,8 +1,11 @@
 import React from 'react';
 import { Download, Check, Sparkles, Shield } from 'lucide-react';
 import homeImg from '../assets/home.png';
+import { useLaunchCountdown } from '../hooks/useLaunchCountdown';
 
 export const Hero: React.FC = () => {
+  const { isLive } = useLaunchCountdown();
+
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     const element = document.querySelector(targetId);
@@ -15,7 +18,7 @@ export const Hero: React.FC = () => {
     <section className="hero reveal">
       <div className="container hero-inner">
         <div className="hero-content">
-          <span className="badge-green">Now Available for Android</span>
+          <span className="badge-green">{isLive ? 'Now Available for Android' : 'Launching Soon for Android'}</span>
           <h1 className="display hero-title">
             <span>Track Your Spendings</span>
             <span><span className="text-ember">Automatically.</span></span>
@@ -24,17 +27,19 @@ export const Hero: React.FC = () => {
             Mofin reads your mobile money messages to track every coin you spend or receive. No manual entry. Offline Friendly. Completely private.
           </p>
           <div className="hero-actions">
-            <a 
-              href="#download" 
-              onClick={(e) => handleScroll(e, '#download')} 
-              className="btn-primary btn-primary-large"
-            >
-              <Download size={20} />
-              Download APK
-            </a>
-            <a 
-              href="#how-it-works" 
-              onClick={(e) => handleScroll(e, '#how-it-works')} 
+            {isLive && (
+              <a
+                href="#download"
+                onClick={(e) => handleScroll(e, '#download')}
+                className="btn-primary btn-primary-large"
+              >
+                <Download size={20} />
+                Download APK
+              </a>
+            )}
+            <a
+              href="#how-it-works"
+              onClick={(e) => handleScroll(e, '#how-it-works')}
               className="btn-neutral"
             >
               How It Works
