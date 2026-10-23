@@ -144,11 +144,45 @@ export interface AuditLogEntry {
   timestamp: string;
   actorEmail: string;
   actorRole: AdminRole;
-  action: 'REVOKE_CODE' | 'REISSUE_CODE' | 'EXTEND_EXPIRY' | 'UNLINK_DEVICE' | 'SUSPEND_ACCOUNT' | 'DELETE_ACCOUNT' | 'REVEAL_PHONE' | 'EXPORT_DATA' | 'ARCHIVE_LEDGER' | 'REPLY_COMPLAINT' | 'CREATE_CODE';
-  targetType: 'ACCOUNT' | 'CODE' | 'PAYMENT' | 'COMPLAINT' | 'LEDGER';
+  action: 'REVOKE_CODE' | 'REISSUE_CODE' | 'EXTEND_EXPIRY' | 'UNLINK_DEVICE' | 'SUSPEND_ACCOUNT' | 'DELETE_ACCOUNT' | 'REVEAL_PHONE' | 'EXPORT_DATA' | 'ARCHIVE_LEDGER' | 'REPLY_COMPLAINT' | 'CREATE_CODE' | 'UPDATE_PLAN' | 'CREATE_PLAN';
+  targetType: 'ACCOUNT' | 'CODE' | 'PAYMENT' | 'COMPLAINT' | 'LEDGER' | 'PLAN' | 'SUBSCRIPTION';
   targetId: string;
   details: string;
   reason?: string;
+}
+
+export type PlanTierCode = 'FREE' | 'LITE' | 'PLUS' | 'PRO' | 'INFINITE';
+export type SubscriptionStatus = 'ACTIVE' | 'GRACE' | 'LAPSED' | 'EXPIRED';
+
+export interface AdminSubscriptionPlan {
+  id: number;
+  code: PlanTierCode;
+  name: string;
+  subtitle: string;
+  price: number;
+  maxEventsPerMonth: number;
+  maxMoneyPerEvent: number;
+  receiptPrinting: boolean;
+  customCategories: boolean;
+  fullAnalytics: boolean;
+  isActive: boolean;
+  displayOrder: number;
+  activeSubscribersCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface UpdatePlanPayload {
+  name?: string;
+  subtitle?: string;
+  price?: number;
+  maxEventsPerMonth?: number;
+  maxMoneyPerEvent?: number;
+  receiptPrinting?: boolean;
+  customCategories?: boolean;
+  fullAnalytics?: boolean;
+  isActive?: boolean;
+  reason: string;
 }
 
 export interface BudgetHealth {

@@ -19,6 +19,7 @@ import { AdminLedgers } from './admin/pages/AdminLedgers';
 import { AdminPayments } from './admin/pages/AdminPayments';
 import { AdminAccessCodes } from './admin/pages/AdminAccessCodes';
 import { AdminComplaints } from './admin/pages/AdminComplaints';
+import { AdminPlans } from './admin/pages/AdminPlans';
 import { AdminSettings } from './admin/pages/AdminSettings';
 
 // Public Layout wrapper with standard website navigation
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="plans" element={<AdminPlans />} />
             <Route path="telemetry" element={<AdminTelemetry />} />
             <Route path="providers" element={<AdminProviders />} />
             <Route path="accounts" element={<AdminAccounts />} />

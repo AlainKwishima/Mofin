@@ -13,6 +13,7 @@ import {
   X,
   Activity,
   Smartphone,
+  Sliders,
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { adminApi } from '../services/adminApi';
@@ -64,6 +65,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, onCloseM
     {
       title: 'Platform & Users',
       items: [
+        { to: '/admin/plans', label: 'Plans & Pricing', icon: Sliders },
         { to: '/admin/telemetry', label: 'Telemetry & Analytics', icon: Activity },
         { to: '/admin/providers', label: 'Financial Providers', icon: Smartphone },
         { to: '/admin/accounts', label: 'Accounts', icon: Users },

@@ -2,9 +2,106 @@
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 
+/* Browser Caret, Selection & Themed Custom Scrollbars */
 ::selection {
   background-color: #10b981;
   color: #ffffff;
+}
+
+/* 1. Global Custom Scrollbars for Admin Surfaces */
+html,
+body,
+.admin-shell *,
+.admin-login-shell * {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.admin-shell *::-webkit-scrollbar,
+.admin-login-shell *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+.admin-shell *::-webkit-scrollbar-track,
+.admin-login-shell *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+.admin-shell *::-webkit-scrollbar-thumb,
+.admin-login-shell *::-webkit-scrollbar-thumb {
+  background-color: #d4d4d8;
+  border-radius: 9999px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+.admin-shell *::-webkit-scrollbar-thumb:hover,
+.admin-login-shell *::-webkit-scrollbar-thumb:hover {
+  background-color: #a1a1aa;
+}
+
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+.admin-shell *::-webkit-scrollbar-button,
+.admin-login-shell *::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.admin-shell *::-webkit-scrollbar-corner,
+.admin-login-shell *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 2. Dark Sidebar Navigation Scrollbar (Invisible by default, sleek dark charcoal on hover) */
+.admin-sidebar,
+.admin-sidebar * {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.2s ease;
+}
+
+.admin-sidebar:hover,
+.admin-sidebar *:hover {
+  scrollbar-color: #27272a transparent;
+}
+
+.admin-sidebar *::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.admin-sidebar *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-sidebar *::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-sidebar:hover *::-webkit-scrollbar-thumb,
+.admin-sidebar nav:hover::-webkit-scrollbar-thumb {
+  background-color: #27272a;
+}
+
+.admin-sidebar *::-webkit-scrollbar-thumb:hover {
+  background-color: #3f3f46 !important;
+}
+
+.admin-sidebar *::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Browser Caret & Tabular data */

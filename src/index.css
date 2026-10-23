@@ -1,5 +1,40 @@
 @import "tailwindcss";
 
+/* Sleek, Modern Scrollbars (Replaces bulky native scrollbars across the entire application) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #d4d4d8;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #a1a1aa;
+}
+
+*::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
 :root {
   --color-obsidian: #09090b;
   --color-graphite: #18181b;
@@ -912,7 +947,7 @@ img, svg {
   padding: var(--spacing-24);
 }
 .version-card.latest {
-  border-left: 4px solid var(--color-ember);
+  border-color: var(--color-ember);
 }
 .version-header {
   display: flex;

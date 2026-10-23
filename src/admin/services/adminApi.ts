@@ -238,6 +238,38 @@ class AdminApiClient {
     return res.json();
   }
 
+  // --- SUBSCRIPTION PLANS (Dynamic Tier Configurator & Pricing Governance) ---
+  async getSubscriptionPlans(): Promise<import('../types/admin').AdminSubscriptionPlan[]> {
+    const res = await fetch(`${API_BASE}/admin/plans`, {
+      headers: this.getHeaders(),
+    });
+    if (!res.ok) throw new Error(`Subscription plans API error: ${res.statusText}`);
+    return res.json();
+  }
+
+  async updateSubscriptionPlan(
+    id: number,
+    data: Partial<import('../types/admin').AdminSubscriptionPlan>,
+    reason: string
+  ): Promise<import('../types/admin').AdminSubscriptionPlan> {
+    const res = await fetch(`${API_BASE}/admin/plans/${id}`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ ...data, reason }),
+    });
+    if (!res.ok) {
+      let errMsg = res.statusText;
+      try {
+        const errJson = await res.json();
+        if (errJson.message) errMsg = Array.isArray(errJson.message) ? errJson.message.join(', ') : errJson.message;
+      } catch {
+        // ignore
+      }
+      throw new Error(errMsg);
+    }
+    return res.json();
+  }
+
   // --- AUDIT LOGS ---
   async getAuditLogs() {
     const res = await fetch(`${API_BASE}/admin/audit-logs`, {
