@@ -133,8 +133,9 @@ body::-webkit-scrollbar-button,
 }
 
 .admin-login-shell {
-  zoom: 0.75;
-  min-height: calc(100vh / 0.75);
+  min-height: 100vh;
+  width: 100%;
+  background-color: #09090b;
 }
 
 .admin-sidebar {
