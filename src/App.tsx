@@ -36,10 +36,17 @@ const PublicLayout: React.FC = () => {
 };
 
 export default function App() {
+  const isAdminDomain =
+    typeof window !== 'undefined' &&
+    (window.location.hostname.includes('admin') || window.location.hostname.startsWith('admin.'));
+
   return (
     <Router>
       <AdminAuthProvider>
         <Routes>
+          {/* Root redirect for dedicated admin domains */}
+          {isAdminDomain && <Route path="/" element={<Navigate to="/admin" replace />} />}
+
           {/* Public Marketing Routes */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
