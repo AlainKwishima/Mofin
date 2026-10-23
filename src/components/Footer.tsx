@@ -46,6 +46,7 @@ export const Footer: React.FC = () => {
               <a href="/#download" onClick={(e) => handleScroll(e, '#download')}>Installation Guide</a>
               <a href="/#faq" onClick={(e) => handleScroll(e, '#faq')}>FAQ</a>
               <Link to="/contact">Contact Us</Link>
+              <Link to="/admin/login" className="text-[#10b981] font-medium">Admin Portal</Link>
             </div>
           </div>
           <div>
@@ -62,6 +63,7 @@ export const Footer: React.FC = () => {
           <div className="flex gap-4">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+            <Link to="/admin/login" className="hover:text-[#10b981] text-[#a1a1aa] transition-colors">Staff Login</Link>
           </div>
         </div>
       </div>
