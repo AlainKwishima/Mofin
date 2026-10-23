@@ -36,6 +36,7 @@ export const Footer: React.FC = () => {
             <div className="footer-links">
               <a href="/#features" onClick={(e) => handleScroll(e, '#features')}>Features</a>
               <a href="/#how-it-works" onClick={(e) => handleScroll(e, '#how-it-works')}>How It Works</a>
+              <Link to="/pricing">Pricing</Link>
               <a href="/#download" onClick={(e) => handleScroll(e, '#download')}>Download</a>
               <a href="/#changelog" onClick={(e) => handleScroll(e, '#changelog')}>Changelog</a>
             </div>
