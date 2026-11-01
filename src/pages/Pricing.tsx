@@ -23,21 +23,18 @@ interface PricingTier {
   subtitle: string;
   featured?: boolean;
   featuredBadge?: string;
-  baseMonthlyPrice: number;
-  promoMonthlyPrice: number;
-  baseAnnualPrice: number;
-  promoAnnualPrice: number;
+  price: number;
   userCalloutLabel: string;
   userCalloutSub: string;
   featureGroups: FeatureGroup[];
 }
 
 // -------------------------------------------------------------
-// REFINED FEATURE DEFINITIONS (BUDGETS TERMINOLOGY, NO DEVICES, NO AI)
+// REFINED FEATURE DEFINITIONS (MATCHING MOFIN V5 SPECIFICATION)
 // -------------------------------------------------------------
 const LITE_GROUPS: FeatureGroup[] = [
   {
-    name: 'Expense Tracking & Budgets',
+    name: 'Expense Tracking & Events',
     features: [
       {
         id: 'sms-sync',
@@ -46,16 +43,16 @@ const LITE_GROUPS: FeatureGroup[] = [
         tooltipDesc: 'Mofin detects incoming mobile money payment alerts directly from SMS notifications with zero data usage.',
       },
       {
-        id: 'single-budget',
-        name: '1 Active Event Budget',
-        tooltipTitle: 'Budget Governance',
-        tooltipDesc: 'Manage 1 active event budget pool with strict capital limits (up to KSH 3,500 per budget).',
+        id: 'lite-events',
+        name: '2 Active Event Budgets',
+        tooltipTitle: 'Event Allocation',
+        tooltipDesc: 'Concurrently manage up to 2 active event budgets (up to KSH 5,000 per event, KSH 10,000/mo total).',
       },
       {
-        id: 'custom-cats',
-        name: 'Custom Expense Categories',
-        tooltipTitle: 'Personalized Tags',
-        tooltipDesc: 'Create unique categories, color labels, and icon tags tailored to your personal spending.',
+        id: 'event-duration',
+        name: 'Up to 30 Days Per Event',
+        tooltipTitle: 'Event Duration',
+        tooltipDesc: 'Every event budget can run up to 30 full days without daily penalty fees.',
       },
       {
         id: 'offline-mode',
@@ -69,10 +66,16 @@ const LITE_GROUPS: FeatureGroup[] = [
     name: 'Exports & Support',
     features: [
       {
+        id: 'receipt-history',
+        name: 'Download History with Receipts',
+        tooltipTitle: 'Receipt Export',
+        tooltipDesc: 'Personal and event transaction history can be downloaded with attached receipt files on all plans.',
+      },
+      {
         id: 'csv-export',
         name: 'Clean CSV / Excel Spreadsheet Export',
         tooltipTitle: 'Spreadsheet Export',
-        tooltipDesc: 'Download clean financial records and budget statements in standard CSV format.',
+        tooltipDesc: 'Download clean financial records and event statements in standard CSV format.',
       },
       {
         id: 'standard-support',
@@ -86,7 +89,7 @@ const LITE_GROUPS: FeatureGroup[] = [
 
 const PLUS_GROUPS: FeatureGroup[] = [
   {
-    name: 'Multi-Budget Management',
+    name: 'Multi-Event Management',
     features: [
       {
         id: 'sms-sync',
@@ -95,16 +98,16 @@ const PLUS_GROUPS: FeatureGroup[] = [
         tooltipDesc: 'Mofin detects incoming mobile money payment alerts directly from SMS notifications with zero data usage.',
       },
       {
-        id: 'multi-budget',
-        name: '2 Active Event Budgets',
-        tooltipTitle: 'Expanded Budgeting',
-        tooltipDesc: 'Concurrently manage up to 2 distinct project budgets (up to KSH 15,000 per budget limit).',
+        id: 'plus-events',
+        name: '3 Active Event Budgets',
+        tooltipTitle: 'Expanded Events',
+        tooltipDesc: 'Concurrently manage up to 3 distinct event budgets (up to KSH 35,000 per event, KSH 105,000/mo total).',
       },
       {
-        id: 'custom-cats',
-        name: 'Custom Expense Categories',
-        tooltipTitle: 'Personalized Tags',
-        tooltipDesc: 'Create unique categories, color labels, and icon tags tailored to your personal spending.',
+        id: 'event-duration',
+        name: 'Up to 30 Days Per Event',
+        tooltipTitle: 'Event Duration',
+        tooltipDesc: 'Every event budget can run up to 30 full days without daily penalty fees.',
       },
       {
         id: 'multi-account',
@@ -118,10 +121,16 @@ const PLUS_GROUPS: FeatureGroup[] = [
     name: 'Analytics & Support',
     features: [
       {
-        id: 'full-analytics',
-        name: 'Interactive Trend Analytics & Charts',
-        tooltipTitle: 'Visual Analytics',
-        tooltipDesc: 'Visual breakdown of burn rate, week-over-week variances, and category ratios.',
+        id: 'receipt-history',
+        name: 'Download History with Receipts',
+        tooltipTitle: 'Receipt Export',
+        tooltipDesc: 'Personal and event transaction history can be downloaded with attached receipt files on all plans.',
+      },
+      {
+        id: 'standard-analytics',
+        name: 'Personal & Event Analytics',
+        tooltipTitle: 'Standard Analytics',
+        tooltipDesc: 'Visual breakdown of burn rate, week-over-week variances, and category ratios starting at Plus.',
       },
       {
         id: 'pdf-reports',
@@ -141,7 +150,7 @@ const PLUS_GROUPS: FeatureGroup[] = [
 
 const PRO_GROUPS: FeatureGroup[] = [
   {
-    name: 'Business Operations & Budgets',
+    name: 'Business Operations & Events',
     features: [
       {
         id: 'sms-sync',
@@ -150,10 +159,22 @@ const PRO_GROUPS: FeatureGroup[] = [
         tooltipDesc: 'Mofin detects incoming mobile money payment alerts directly from SMS notifications with zero data usage.',
       },
       {
-        id: 'pro-budgets',
-        name: '4 Active Event Budgets',
-        tooltipTitle: 'Business Budgets',
-        tooltipDesc: 'Maintain 4 dedicated concurrent project budgets with high balance capacity (KSH 65,000 per budget).',
+        id: 'pro-events',
+        name: '5 Active Event Budgets',
+        tooltipTitle: 'Business Events',
+        tooltipDesc: 'Maintain 5 dedicated concurrent event budgets with high capacity (KSH 150,000 per event, KSH 750,000/mo total).',
+      },
+      {
+        id: 'event-duration',
+        name: 'Up to 30 Days Per Event',
+        tooltipTitle: 'Event Duration',
+        tooltipDesc: 'Every event budget can run up to 30 full days without daily penalty fees.',
+      },
+      {
+        id: 'custom-cats',
+        name: 'Custom Expense Categories',
+        tooltipTitle: 'Personalized Tags',
+        tooltipDesc: 'Create unique categories, color labels, and icon tags tailored to your events and spending.',
       },
       {
         id: 'receipt-print',
@@ -165,13 +186,19 @@ const PRO_GROUPS: FeatureGroup[] = [
         id: 'cloud-backup',
         name: 'Automatic Cloud Backup & Restore',
         tooltipTitle: 'Encrypted Cloud Backup',
-        tooltipDesc: 'Safely backup and restore your budgets, categories, and transactions whenever needed.',
+        tooltipDesc: 'Safely backup and restore your events, categories, and transactions whenever needed.',
       },
     ],
   },
   {
     name: 'Compliance & Analytics',
     features: [
+      {
+        id: 'receipt-history',
+        name: 'Download History with Receipts',
+        tooltipTitle: 'Receipt Export',
+        tooltipDesc: 'Personal and event transaction history can be downloaded with attached receipt files on all plans.',
+      },
       {
         id: 'tax-prep',
         name: 'KRA Tax Schedule & VAT Breakdown',
@@ -180,9 +207,9 @@ const PRO_GROUPS: FeatureGroup[] = [
       },
       {
         id: 'full-analytics',
-        name: 'Interactive Trend Analytics & Charts',
+        name: 'Full Personal & Event Trend Analytics',
         tooltipTitle: 'Visual Analytics',
-        tooltipDesc: 'Visual breakdown of burn rate, week-over-week variances, and category ratios.',
+        tooltipDesc: 'Deep visual breakdown of burn rate, week-over-week variances, and category ratios.',
       },
       {
         id: 'pdf-reports',
@@ -213,7 +240,7 @@ const PRO_GROUPS: FeatureGroup[] = [
 
 const INFINITE_GROUPS: FeatureGroup[] = [
   {
-    name: 'Enterprise Budgets & Governance',
+    name: 'Enterprise Events & Governance',
     features: [
       {
         id: 'sms-sync',
@@ -222,10 +249,22 @@ const INFINITE_GROUPS: FeatureGroup[] = [
         tooltipDesc: 'Mofin detects incoming mobile money payment alerts directly from SMS notifications with zero data usage.',
       },
       {
-        id: 'infinite-budgets',
+        id: 'infinite-events',
         name: 'Unlimited Active Event Budgets',
         tooltipTitle: 'Limitless Scope',
-        tooltipDesc: 'Deploy limitless concurrent budget pools with uncapped transactional limits.',
+        tooltipDesc: 'Deploy limitless concurrent event budget pools with uncapped transactional limits (Above KSh 150,000).',
+      },
+      {
+        id: 'no-duration-cap',
+        name: 'No Event Duration Cap',
+        tooltipTitle: 'Unlimited Length',
+        tooltipDesc: 'Events can run indefinitely without 30-day cutoffs or renewal limits.',
+      },
+      {
+        id: 'custom-cats',
+        name: 'Custom Expense Categories',
+        tooltipTitle: 'Personalized Tags',
+        tooltipDesc: 'Create unique categories, color labels, and icon tags tailored to your enterprise needs.',
       },
       {
         id: 'receipt-print',
@@ -250,6 +289,12 @@ const INFINITE_GROUPS: FeatureGroup[] = [
   {
     name: 'Integrations & Compliance',
     features: [
+      {
+        id: 'receipt-history',
+        name: 'Download History with Receipts',
+        tooltipTitle: 'Receipt Export',
+        tooltipDesc: 'Personal and event transaction history can be downloaded with attached receipt files on all plans.',
+      },
       {
         id: 'custom-api',
         name: 'Direct Webhook & ERP Export',
@@ -294,24 +339,18 @@ const PRICING_TIERS: PricingTier[] = [
     id: 'lite',
     name: 'Mofin Lite',
     subtitle: 'Trackstar: Essential mobile money tracking',
-    baseMonthlyPrice: 499,
-    promoMonthlyPrice: 249,
-    baseAnnualPrice: 399,
-    promoAnnualPrice: 199,
-    userCalloutLabel: '1 Active Budget',
-    userCalloutSub: 'Up to KSH 3,500 budget limit',
+    price: 249,
+    userCalloutLabel: '2 Active Events',
+    userCalloutSub: 'Up to KSH 5,000 per event',
     featureGroups: LITE_GROUPS,
   },
   {
     id: 'plus',
     name: 'Mofin Plus',
     subtitle: 'Organizer: Scale multiple income and cost pools',
-    baseMonthlyPrice: 850,
-    promoMonthlyPrice: 425,
-    baseAnnualPrice: 680,
-    promoAnnualPrice: 340,
-    userCalloutLabel: '2 Active Budgets',
-    userCalloutSub: 'Up to KSH 15,000 per budget',
+    price: 549,
+    userCalloutLabel: '3 Active Events',
+    userCalloutSub: 'Up to KSH 35,000 per event',
     featureGroups: PLUS_GROUPS,
   },
   {
@@ -320,24 +359,18 @@ const PRICING_TIERS: PricingTier[] = [
     subtitle: 'Analyst: Full automation for busy businesses',
     featured: true,
     featuredBadge: 'Most Popular',
-    baseMonthlyPrice: 1510,
-    promoMonthlyPrice: 755,
-    baseAnnualPrice: 1200,
-    promoAnnualPrice: 600,
-    userCalloutLabel: '4 Active Budgets',
-    userCalloutSub: 'Up to KSH 65,000 per budget',
+    price: 1149,
+    userCalloutLabel: '5 Active Events',
+    userCalloutSub: 'Up to KSH 150,000 per event',
     featureGroups: PRO_GROUPS,
   },
   {
     id: 'infinite',
     name: 'Mofin Infinite',
     subtitle: 'Unlimited: Complete governance and API feeds',
-    baseMonthlyPrice: 2300,
-    promoMonthlyPrice: 1150,
-    baseAnnualPrice: 1840,
-    promoAnnualPrice: 920,
-    userCalloutLabel: 'Unlimited Budgets',
-    userCalloutSub: 'No spending or balance cap',
+    price: 1999,
+    userCalloutLabel: 'Unlimited Events',
+    userCalloutSub: 'Above KSH 150,000 • No cap',
     featureGroups: INFINITE_GROUPS,
   },
 ];
@@ -357,7 +390,7 @@ const FAQS = [
   },
   {
     q: 'Is phone and WhatsApp support included?',
-    a: 'Yes! Phone and direct WhatsApp onboarding support is 100% free with all paid plans and during the 30-day trial period. Our East African operations team is available from 08:00 to 20:00 EAT.',
+    a: 'Yes! Phone and direct WhatsApp onboarding support is 100% free with all paid plans. Our East African operations team is available from 08:00 to 20:00 EAT.',
   },
   {
     q: 'What is included in the free onboarding call?',
@@ -373,7 +406,6 @@ export const Pricing: React.FC = () => {
   const [cadence, setCadence] = useState<Cadence>('MONTHLY');
   const [currentStep, setCurrentStep] = useState<'plan' | 'checkout'>('plan');
   const [selectedPlanId, setSelectedPlanId] = useState<string>('pro');
-  const [promoBannerVisible, setPromoBannerVisible] = useState(true);
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const [disclaimerModalOpen, setDisclaimerModalOpen] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
@@ -448,33 +480,13 @@ export const Pricing: React.FC = () => {
   const selectedPlan = PRICING_TIERS.find((p) => p.id === selectedPlanId) || PRICING_TIERS[2];
 
   const getPriceData = (plan: PricingTier) => {
-    if (cadence === 'TRIAL') {
-      return {
-        struckPrice: null,
-        headlineMajor: 'KSH 0',
-        headlineCents: '',
-        suffix: 'for 30 days',
-        offerNote: 'Free trial • No card required',
-        basketTotal: 'KSH 0.00',
-      };
-    }
-    if (cadence === 'ANNUAL') {
-      return {
-        struckPrice: `KSH ${plan.baseAnnualPrice.toLocaleString()}`,
-        headlineMajor: `KSH ${plan.promoAnnualPrice.toLocaleString()}`,
-        headlineCents: '',
-        suffix: '/mo (billed annually)',
-        offerNote: 'Save 50% for 3 months',
-        basketTotal: `KSH ${(plan.promoAnnualPrice * 12).toLocaleString()}.00`,
-      };
-    }
     return {
-      struckPrice: `KSH ${plan.baseMonthlyPrice.toLocaleString()}`,
-      headlineMajor: `KSH ${plan.promoMonthlyPrice.toLocaleString()}`,
+      struckPrice: null,
+      headlineMajor: `KSH ${plan.price.toLocaleString()}`,
       headlineCents: '',
       suffix: '/month',
-      offerNote: 'Save 50% for 3 months',
-      basketTotal: `KSH ${plan.promoMonthlyPrice.toLocaleString()}.00`,
+      offerNote: 'Monthly subscription • Cancel anytime',
+      basketTotal: `KSH ${plan.price.toLocaleString()}.00`,
     };
   };
 
@@ -496,40 +508,7 @@ export const Pricing: React.FC = () => {
   return (
     <div className="qb-root flex flex-col">
       {/* -------------------------------------------------------------
-          1. TOP PROMOTIONAL BANNER (CLEARS FIXED NAVBAR)
-          ------------------------------------------------------------- */}
-      {promoBannerVisible && (
-        <aside className="promo-banner">
-          <div className="qb-container promo-banner-inner">
-            <span className="promo-banner-badge">Limited time offer</span>
-            <span className="promo-banner-offer">
-              Get <span className="promo-banner-discount">50% OFF</span> Mofin for 3 months on all plans
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                setCadence('MONTHLY');
-                const planSection = document.getElementById('pricing-plan-selection');
-                if (planSection) planSection.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="promo-banner-cta bg-transparent border-0 underline"
-            >
-              Get started &rarr;
-            </button>
-            <button
-              type="button"
-              onClick={() => setPromoBannerVisible(false)}
-              className="promo-banner-close"
-              aria-label="Close promo banner"
-            >
-              <X size={15} />
-            </button>
-          </div>
-        </aside>
-      )}
-
-      {/* -------------------------------------------------------------
-          2. EXIT INTENT PROMO MODAL
+          EXIT INTENT MODAL
           ------------------------------------------------------------- */}
       {exitModalOpen && (
         <div className="qb-modal-backdrop" onClick={() => setExitModalOpen(false)}>
@@ -543,12 +522,12 @@ export const Pricing: React.FC = () => {
               <X size={18} />
             </button>
             <div className="qb-stack qb-stack--center">
-              <span className="promo-exit-modal-badge">Special Welcome Offer</span>
+              <span className="promo-exit-modal-badge">Most Popular</span>
               <h2 className="qb-h3" style={{ marginBottom: '0.35rem' }}>
-                Get <span className="promo-exit-modal-discount">50% OFF</span> Mofin Pro for 3 months
+                Automate with Mofin Pro
               </h2>
               <p className="qb-body" style={{ color: 'var(--color-steel)', marginBottom: '1.25rem' }}>
-                Automate your Daraja M-Pesa expense tracking, event budgets, and cash flow governance effortlessly.
+                Automate your Daraja M-Pesa expense tracking, 5 dedicated event budgets up to KSH 150,000, and cash flow governance effortlessly.
               </p>
               <button
                 type="button"
@@ -559,7 +538,7 @@ export const Pricing: React.FC = () => {
                 className="qb-button qb-button--green qb-button--medium"
                 style={{ width: '100%', maxWidth: '16rem' }}
               >
-                Claim 50% discount now
+                Choose Mofin Pro
               </button>
             </div>
           </div>
@@ -567,7 +546,7 @@ export const Pricing: React.FC = () => {
       )}
 
       {/* -------------------------------------------------------------
-          3. MAIN PRICING FLOW
+          MAIN PRICING FLOW
           ------------------------------------------------------------- */}
       <main className="qb-pricing-flow qb-section">
         <div className="qb-container qb-pricing-flow-inner">
@@ -627,23 +606,31 @@ export const Pricing: React.FC = () => {
                     className={cadence === 'MONTHLY' ? 'active' : ''}
                     onClick={() => setCadence('MONTHLY')}
                   >
-                    <span className="qb-pricing-flow-offer-badge">-50%</span>
                     <span>Monthly</span>
                   </label>
                   <label
                     ref={annualRef}
-                    className={cadence === 'ANNUAL' ? 'active' : ''}
-                    onClick={() => setCadence('ANNUAL')}
+                    className="opacity-50 select-none"
+                    style={{ opacity: 0.5, cursor: 'not-allowed' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    title="Annual billing coming soon"
                   >
-                    <span className="qb-pricing-flow-offer-badge">-20%</span>
                     <span>Annual</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, padding: '1px 5px', borderRadius: '4px', backgroundColor: '#f4f4f5', color: '#71717a', marginLeft: '6px' }}>SOON</span>
                   </label>
                   <label
                     ref={trialRef}
-                    className={cadence === 'TRIAL' ? 'active' : ''}
-                    onClick={() => setCadence('TRIAL')}
+                    className="opacity-50 select-none"
+                    style={{ opacity: 0.5, cursor: 'not-allowed' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    title="Free trial coming soon"
                   >
                     <span>Free trial</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, padding: '1px 5px', borderRadius: '4px', backgroundColor: '#f4f4f5', color: '#71717a', marginLeft: '6px' }}>SOON</span>
                   </label>
                 </fieldset>
               </div>
@@ -894,8 +881,6 @@ export const Pricing: React.FC = () => {
                       >
                         {isSubmitting
                           ? 'Initiating STK Push…'
-                          : cadence === 'TRIAL'
-                          ? 'Start 30-Day Free Trial'
                           : `Pay ${getPriceData(selectedPlan).basketTotal} via M-Pesa`}
                       </button>
 
