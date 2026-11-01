@@ -277,7 +277,7 @@ export const Privacy: React.FC = () => {
         </LegalParagraph>
         <LegalParagraph>
           You may request deletion of your account and associated server-side data by contacting us at{' '}
-          <LegalEmail email="micodan24@gmail.com" />. Local data on your device can be removed by clearing app data
+          <LegalEmail email="mofinglo7@gmail.com" />. Local data on your device can be removed by clearing app data
           or uninstalling the App.
         </LegalParagraph>
       </LegalSection>
@@ -298,7 +298,7 @@ export const Privacy: React.FC = () => {
           ]}
         />
         <LegalParagraph>
-          To exercise these rights, contact us at <LegalEmail email="micodan24@gmail.com" />. We may need to verify
+          To exercise these rights, contact us at <LegalEmail email="mofinglo7@gmail.com" />. We may need to verify
           your identity before responding. You may also manage certain permissions and optional features directly
           through your device settings or within the App.
         </LegalParagraph>
@@ -365,7 +365,7 @@ export const Privacy: React.FC = () => {
         <LegalList
           items={[
             <>
-              Email: <LegalEmail email="micodan24@gmail.com" />
+              Email: <LegalEmail email="mofinglo7@gmail.com" />
             </>,
             <>
               Website: <LegalLink to="/contact">Contact Us</LegalLink>

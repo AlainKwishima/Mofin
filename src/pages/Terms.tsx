@@ -90,7 +90,7 @@ export const Terms: React.FC = () => {
         <LegalParagraph>
           You are solely responsible for all activity that occurs under your account and for maintaining the
           security of your device and login credentials. Notify us promptly at{' '}
-          <LegalEmail email="micodan24@gmail.com" /> if you suspect unauthorized access to your account.
+          <LegalEmail email="mofinglo7@gmail.com" /> if you suspect unauthorized access to your account.
         </LegalParagraph>
         <LegalParagraph>
           We may suspend or terminate accounts that violate these Terms or that we reasonably believe pose a security
@@ -300,7 +300,7 @@ export const Terms: React.FC = () => {
       <LegalSection title="18. Reporting Bugs and Security Issues">
         <LegalParagraph>
           We welcome reports of bugs, defects, and security vulnerabilities discovered during testing. Please report
-          issues promptly to <LegalEmail email="micodan24@gmail.com" /> or via our{' '}
+          issues promptly to <LegalEmail email="mofinglo7@gmail.com" /> or via our{' '}
           <LegalLink to="/contact">Contact Us</LegalLink> page.
         </LegalParagraph>
         <LegalParagraph>
@@ -389,7 +389,7 @@ export const Terms: React.FC = () => {
         <LegalList
           items={[
             <>
-              Email: <LegalEmail email="micodan24@gmail.com" />
+              Email: <LegalEmail email="mofinglo7@gmail.com" />
             </>,
             <>
               Website: <LegalLink to="/contact">Contact Us</LegalLink>
