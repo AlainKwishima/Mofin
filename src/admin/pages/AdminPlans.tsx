@@ -365,7 +365,8 @@ export const AdminPlans: React.FC = () => {
                 </tr>
               ) : (
                 plans.map((plan, index) => {
-                  const rwfPrice = Math.round(plan.price * 9.6);
+                  const rwfPrice = plan.priceRwf && plan.priceRwf > 0 ? plan.priceRwf : Math.round(plan.price * 10);
+                  const effectiveCapRwf = plan.maxMoneyPerEventRwf && plan.maxMoneyPerEventRwf > 0 ? plan.maxMoneyPerEventRwf : plan.maxMoneyPerEvent * 10;
                   const tierMRR = (plan.activeSubscribersCount || 0) * plan.price;
                   const mrrSharePercent =
                     estimatedMRRKES > 0 ? Math.round((tierMRR / estimatedMRRKES) * 100) : 0;
@@ -387,14 +388,14 @@ export const AdminPlans: React.FC = () => {
                       {/* Monthly Price */}
                       <td className="admin-td">
                         <div className="tabular-nums" style={{ fontSize: '14px', fontWeight: 700, color: '#09090b' }}>
-                          KSH {plan.price.toLocaleString()}
+                          {currency === 'RWF' ? `${rwfPrice.toLocaleString()} RWF` : `KSH ${plan.price.toLocaleString()}`}
                           <span style={{ fontSize: '11px', fontWeight: 400, color: '#71717a', marginLeft: '3px' }}>
                             / mo
                           </span>
                         </div>
                         {plan.price > 0 && (
                           <div style={{ fontSize: '11px', color: '#71717a', marginTop: '1px' }}>
-                            ≈ {rwfPrice.toLocaleString()} RWF
+                            {currency === 'RWF' ? `≈ KSH ${plan.price.toLocaleString()}` : `≈ ${rwfPrice.toLocaleString()} RWF`}
                           </div>
                         )}
                       </td>
@@ -417,6 +418,8 @@ export const AdminPlans: React.FC = () => {
                         >
                           {plan.maxMoneyPerEvent >= 9999999
                             ? 'Unlimited'
+                            : currency === 'RWF'
+                            ? `${effectiveCapRwf.toLocaleString()} RWF`
                             : `KSH ${plan.maxMoneyPerEvent.toLocaleString()}`}
                         </span>
                       </td>

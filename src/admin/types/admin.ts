@@ -160,8 +160,10 @@ export interface AdminSubscriptionPlan {
   name: string;
   subtitle: string;
   price: number;
+  priceRwf?: number;
   maxEventsPerMonth: number;
   maxMoneyPerEvent: number;
+  maxMoneyPerEventRwf?: number;
   receiptPrinting: boolean;
   customCategories: boolean;
   fullAnalytics: boolean;
@@ -176,8 +178,10 @@ export interface UpdatePlanPayload {
   name?: string;
   subtitle?: string;
   price?: number;
+  priceRwf?: number;
   maxEventsPerMonth?: number;
   maxMoneyPerEvent?: number;
+  maxMoneyPerEventRwf?: number;
   receiptPrinting?: boolean;
   customCategories?: boolean;
   fullAnalytics?: boolean;

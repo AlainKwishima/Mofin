@@ -13,10 +13,13 @@ import {
 import { PaymentRecord, PaymentStatus } from '../types/admin';
 import { adminApi } from '../services/adminApi';
 import { useAdminAuth } from '../context/AdminAuthContext';
+import { useAdminCurrency } from '../context/AdminCurrencyContext';
 import '../admin.css';
 
 export const AdminPayments: React.FC = () => {
   const { user, canExportAllPayments } = useAdminAuth();
+  const { currency } = useAdminCurrency();
+  const symbol = currency === 'RWF' ? 'RWF' : 'KSH';
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -230,10 +233,10 @@ export const AdminPayments: React.FC = () => {
       <div className="admin-stat-strip">
         <div className="admin-stat-segment">
           <div className="admin-stat-label">
-            <span>Today (KSH)</span>
+            <span>Today ({symbol})</span>
           </div>
           <div className="admin-stat-value tabular-nums">
-            KSH {todayRevenue.toLocaleString()}
+            {symbol} {todayRevenue.toLocaleString()}
           </div>
           <div className="admin-stat-sub">Settled today</div>
         </div>
@@ -243,7 +246,7 @@ export const AdminPayments: React.FC = () => {
             <span>This Month (MTD)</span>
           </div>
           <div className="admin-stat-value tabular-nums" style={{ color: '#047857' }}>
-            KSH {thisMonthRevenue.toLocaleString()}
+            {symbol} {thisMonthRevenue.toLocaleString()}
           </div>
           <div className="admin-stat-sub">Current month volume</div>
         </div>
@@ -253,9 +256,9 @@ export const AdminPayments: React.FC = () => {
             <span>All Time Gross</span>
           </div>
           <div className="admin-stat-value tabular-nums">
-            KSH {allTimeRevenue.toLocaleString()}
+            {symbol} {allTimeRevenue.toLocaleString()}
           </div>
-          <div className="admin-stat-sub">Gross Till 4549332 pass receipts</div>
+          <div className="admin-stat-sub">Gross pass receipts</div>
         </div>
 
         <div className="admin-stat-segment">
@@ -353,7 +356,7 @@ export const AdminPayments: React.FC = () => {
                 <th className="admin-th">Payer number</th>
                 <th className="admin-th">M-Pesa ref</th>
                 <th className="admin-th">Feature</th>
-                <th className="admin-th" style={{ textAlign: 'right' }}>KSH</th>
+                <th className="admin-th" style={{ textAlign: 'right' }}>{symbol}</th>
                 <th className="admin-th">Pass code</th>
                 <th className="admin-th" style={{ textAlign: 'center' }}>Status</th>
                 <th className="admin-th" style={{ textAlign: 'right' }}>Action</th>

@@ -570,7 +570,7 @@ export const AdminAccounts: React.FC = () => {
                   </div>
                   <div style={{ padding: '6px 8px', backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #ececee' }}>
                     <span style={{ color: '#991b1b', fontWeight: 600 }}>Airtel Money:</span>
-                    <div style={{ fontWeight: 700, color: '#09090b', marginTop: '2px' }}>KSH {(selectedAccount.providers?.airtel || 0).toLocaleString()}</div>
+                    <div style={{ fontWeight: 700, color: '#09090b', marginTop: '2px' }}>{(selectedAccount.currency === 'RWF' ? 'RWF' : 'KSH')} {(selectedAccount.providers?.airtel || 0).toLocaleString()}</div>
                   </div>
                   <div style={{ padding: '6px 8px', backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #ececee' }}>
                     <span style={{ color: '#5b21b6', fontWeight: 600 }}>Equitel:</span>

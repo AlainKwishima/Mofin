@@ -24,8 +24,10 @@ interface PricingTier {
   featured?: boolean;
   featuredBadge?: string;
   price: number;
+  priceRwf: number;
   userCalloutLabel: string;
-  userCalloutSub: string;
+  userCalloutSubKes: string;
+  userCalloutSubRwf: string;
   featureGroups: FeatureGroup[];
 }
 
@@ -340,8 +342,10 @@ const PRICING_TIERS: PricingTier[] = [
     name: 'Mofin Lite',
     subtitle: 'Trackstar: Essential mobile money tracking',
     price: 249,
+    priceRwf: 2500,
     userCalloutLabel: '2 Active Events',
-    userCalloutSub: 'Up to KSH 5,000 per event',
+    userCalloutSubKes: 'Up to KSH 5,000 per event',
+    userCalloutSubRwf: 'Up to 50,000 RWF per event',
     featureGroups: LITE_GROUPS,
   },
   {
@@ -349,8 +353,10 @@ const PRICING_TIERS: PricingTier[] = [
     name: 'Mofin Plus',
     subtitle: 'Organizer: Scale multiple income and cost pools',
     price: 549,
+    priceRwf: 5500,
     userCalloutLabel: '3 Active Events',
-    userCalloutSub: 'Up to KSH 35,000 per event',
+    userCalloutSubKes: 'Up to KSH 35,000 per event',
+    userCalloutSubRwf: 'Up to 350,000 RWF per event',
     featureGroups: PLUS_GROUPS,
   },
   {
@@ -360,8 +366,10 @@ const PRICING_TIERS: PricingTier[] = [
     featured: true,
     featuredBadge: 'Most Popular',
     price: 1149,
+    priceRwf: 11500,
     userCalloutLabel: '5 Active Events',
-    userCalloutSub: 'Up to KSH 150,000 per event',
+    userCalloutSubKes: 'Up to KSH 150,000 per event',
+    userCalloutSubRwf: 'Up to 1,500,000 RWF per event',
     featureGroups: PRO_GROUPS,
   },
   {
@@ -369,8 +377,10 @@ const PRICING_TIERS: PricingTier[] = [
     name: 'Mofin Infinite',
     subtitle: 'Unlimited: Complete governance and API feeds',
     price: 1999,
+    priceRwf: 20000,
     userCalloutLabel: 'Unlimited Events',
-    userCalloutSub: 'Above KSH 150,000 • No cap',
+    userCalloutSubKes: 'Above KSH 150,000 • No cap',
+    userCalloutSubRwf: 'Above 1,500,000 RWF • No cap',
     featureGroups: INFINITE_GROUPS,
   },
 ];
@@ -405,6 +415,7 @@ const FAQS = [
 export const Pricing: React.FC = () => {
   const [promoBannerVisible, setPromoBannerVisible] = useState(true);
   const [cadence, setCadence] = useState<Cadence>('MONTHLY');
+  const [currency, setCurrency] = useState<'KES' | 'RWF'>('KES');
   const [currentStep, setCurrentStep] = useState<'plan' | 'checkout'>('plan');
   const [selectedPlanId, setSelectedPlanId] = useState<string>('pro');
   const [exitModalOpen, setExitModalOpen] = useState(false);
@@ -496,40 +507,44 @@ export const Pricing: React.FC = () => {
   const selectedPlan = PRICING_TIERS.find((p) => p.id === selectedPlanId) || PRICING_TIERS[2];
 
   const getPriceData = (plan: PricingTier) => {
+    const isRwf = currency === 'RWF';
+    const activePrice = isRwf ? plan.priceRwf : plan.price;
+    const symbol = isRwf ? 'RWF' : 'KSH';
+
     if (cadence === 'ANNUAL') {
-      const fullAnnualBase = plan.price * 12;
+      const fullAnnualBase = activePrice * 12;
       const discountedAnnual = Math.round(fullAnnualBase * 0.5); // 50% off
       const monthlyEquiv = Math.round(discountedAnnual / 12);
       return {
-        struckPrice: `KSH ${fullAnnualBase.toLocaleString()}`,
-        headlineMajor: `KSH ${discountedAnnual.toLocaleString()}`,
+        struckPrice: `${symbol} ${fullAnnualBase.toLocaleString()}`,
+        headlineMajor: `${symbol} ${discountedAnnual.toLocaleString()}`,
         headlineCents: '',
         suffix: '/year',
-        offerNote: `50% off yearly (~KSH ${monthlyEquiv.toLocaleString()}/mo) • Save KSH ${(fullAnnualBase - discountedAnnual).toLocaleString()}`,
-        basketTotal: `KSH ${discountedAnnual.toLocaleString()}.00`,
+        offerNote: `50% off yearly (~${symbol} ${monthlyEquiv.toLocaleString()}/mo) • Save ${symbol} ${(fullAnnualBase - discountedAnnual).toLocaleString()}`,
+        basketTotal: `${symbol} ${discountedAnnual.toLocaleString()}.00`,
       };
     }
 
     if (cadence === 'TRIAL') {
       return {
         struckPrice: null,
-        headlineMajor: 'KSH 0',
+        headlineMajor: `${symbol} 0`,
         headlineCents: '',
         suffix: '/30 days',
         offerNote: 'Free 30-day trial • No card required',
-        basketTotal: 'KSH 0.00',
+        basketTotal: `${symbol} 0.00`,
       };
     }
 
     // Default: MONTHLY (30% off)
-    const discountedMonthly = Math.ceil(plan.price * 0.7); // 30% off
+    const discountedMonthly = Math.ceil(activePrice * 0.7); // 30% off
     return {
-      struckPrice: `KSH ${plan.price.toLocaleString()}`,
-      headlineMajor: `KSH ${discountedMonthly.toLocaleString()}`,
+      struckPrice: `${symbol} ${activePrice.toLocaleString()}`,
+      headlineMajor: `${symbol} ${discountedMonthly.toLocaleString()}`,
       headlineCents: '',
       suffix: '/month',
       offerNote: '30% off monthly promotional rate • Cancel anytime',
-      basketTotal: `KSH ${discountedMonthly.toLocaleString()}.00`,
+      basketTotal: `${symbol} ${discountedMonthly.toLocaleString()}.00`,
     };
   };
 
@@ -686,9 +701,49 @@ export const Pricing: React.FC = () => {
               </ol>
             </nav>
 
-            {/* Cadence Switcher with Sliding Pill Indicator */}
+            {/* Cadence & Currency Controls */}
             {currentStep === 'plan' && (
-              <div className="qb-pricing-flow-controls">
+              <div className="qb-pricing-flow-controls" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                {/* Currency Switcher */}
+                <div style={{ display: 'inline-flex', background: '#f4f4f5', padding: '3px', borderRadius: '10px', border: '1px solid #e4e4e7' }}>
+                  <button
+                    type="button"
+                    onClick={() => setCurrency('KES')}
+                    style={{
+                      padding: '6px 14px',
+                      fontSize: '12px',
+                      fontWeight: currency === 'KES' ? 700 : 500,
+                      borderRadius: '7px',
+                      border: 'none',
+                      background: currency === 'KES' ? '#ffffff' : 'transparent',
+                      color: currency === 'KES' ? '#09090b' : '#71717a',
+                      boxShadow: currency === 'KES' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    🇰🇪 KES (Ksh)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrency('RWF')}
+                    style={{
+                      padding: '6px 14px',
+                      fontSize: '12px',
+                      fontWeight: currency === 'RWF' ? 700 : 500,
+                      borderRadius: '7px',
+                      border: 'none',
+                      background: currency === 'RWF' ? '#ffffff' : 'transparent',
+                      color: currency === 'RWF' ? '#09090b' : '#71717a',
+                      boxShadow: currency === 'RWF' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    🇷🇼 RWF (Frw)
+                  </button>
+                </div>
+
                 <fieldset className="qb-pricing-flow-cadence">
                   <legend className="qb-pricing-flow-visually-hidden">Offer cadence</legend>
                   <span
@@ -780,7 +835,7 @@ export const Pricing: React.FC = () => {
                         {/* Audience Callout (No Devices, Clean Budgets) */}
                         <div className="qb-pricing-flow-card-user-callout">
                           <span className="qb-label">{tier.userCalloutLabel}</span>
-                          <span>{tier.userCalloutSub}</span>
+                          <span>{currency === 'RWF' ? tier.userCalloutSubRwf : tier.userCalloutSubKes}</span>
                         </div>
 
                         {/* Feature Groups Accordions */}
@@ -885,7 +940,7 @@ export const Pricing: React.FC = () => {
                     </span>
                   </div>
                   <p className="qb-body-sm" style={{ marginTop: '0.5rem', color: 'var(--color-fog)' }}>
-                    VAT and Daraja M-Pesa processing fees included.
+                    VAT and mobile money processing fees included.
                   </p>
                 </aside>
 
@@ -898,7 +953,7 @@ export const Pricing: React.FC = () => {
                       </div>
                       <h3 className="qb-h3 mb-2">Order Confirmed</h3>
                       <p className="qb-body mb-5 text-gray-600">
-                        We have dispatched your M-Pesa STK prompt and activation pass code to{' '}
+                        We have dispatched your mobile money payment prompt and activation pass code to{' '}
                         <strong>{checkoutPhone || 'your registered number'}</strong>.
                       </p>
                       <button
@@ -916,10 +971,13 @@ export const Pricing: React.FC = () => {
                     <form onSubmit={handleCheckoutSubmit}>
                       <h3 className="qb-h3 mb-1">Instant Paystack Checkout</h3>
                       <p className="qb-body-sm mb-3 text-gray-500">
-                        Fast & automated • Supports M-Pesa STK Push, Airtel Money, Visa & Mastercard.
+                        Fast & automated • Supports MTN MoMo, M-Pesa, Airtel Money, Visa & Mastercard.
                       </p>
 
                       <div className="flex flex-wrap gap-1.5 mb-4">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-yellow-50 text-yellow-800 border border-yellow-200">
+                          MTN MoMo
+                        </span>
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                           M-Pesa STK Push
                         </span>
@@ -951,14 +1009,14 @@ export const Pricing: React.FC = () => {
 
                       <div className="checkout-form-group">
                         <label className="checkout-form-label" htmlFor="checkout-phone">
-                          Mobile Number (for M-Pesa PIN prompt)
+                          Mobile Number (for Mobile Money prompt)
                         </label>
                         <input
                           id="checkout-phone"
                           type="tel"
                           value={checkoutPhone}
                           onChange={(e) => setCheckoutPhone(e.target.value)}
-                          placeholder="e.g. 0712 345 678 or 2547..."
+                          placeholder="e.g. 078... / 071... (+250 / +254)"
                           className="checkout-form-input"
                         />
                       </div>

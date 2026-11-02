@@ -1,17 +1,17 @@
 {
-  "version": "1.0.0",
-  "version_code": 1,
-  "download_url": "https://mofin.app/download/mofin-v1.0.0.apk",
-  "file_size": "8.5 MB",
+  "version": "1.1.0",
+  "version_code": 6,
+  "download_url": "https://mofin.app/download/mofin.apk",
+  "file_size": "22.6 MB",
   "min_android_version": "8.0",
-  "release_date": "2026-08-11",
+  "release_date": "2026-11-03",
   "force_update": false,
   "release_notes": [
-    "M-Pesa transaction detection",
-    "On-device AI categorization",
-    "Offline-first dashboard",
-    "Budget tracking with alerts",
-    "PDF report export"
+    "First-class Rwandan Franc (RWF) support across plans, paywalls, and event budgets",
+    "Dynamic multi-currency pricing and entitlement caps (KES & RWF)",
+    "M-Pesa and MTN/Airtel MoMo support",
+    "Offline-first dashboard with on-device AI categorization",
+    "Performance improvements and stability fixes"
   ],
   "model": {
     "latest_version": 1,

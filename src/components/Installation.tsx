@@ -5,7 +5,7 @@ const installSteps: InstallStep[] = [
   {
     number: 1,
     title: 'Download the APK',
-    description: "Tap the green 'Download APK' button above. The file (mofin-v1.0.0.apk) will save to your Downloads folder.",
+    description: "Tap the green 'Download APK' button above. The file (mofin.apk) will save to your Downloads folder.",
   },
   {
     number: 2,
