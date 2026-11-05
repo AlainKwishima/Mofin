@@ -1,18 +1,17 @@
 {
-  "version": "1.2.0",
-  "version_code": 7,
+  "version": "1.2.1",
+  "version_code": 8,
   "download_url": "https://mofin.app/download/mofin.apk",
   "file_size": "22.6 MB",
   "min_android_version": "8.0",
-  "release_date": "2026-11-03",
+  "release_date": "2026-11-05",
   "force_update": false,
   "release_notes": [
-    "Full Offline-First architecture: record, edit, and view transactions and budgets without internet",
-    "Optimistic mutations with local receipt caching and automatic background sync upon reconnection",
-    "Subtle pending sync indicators and friendly connection status alerts",
-    "First-class Rwandan Franc (RWF) support across plans, paywalls, and event budgets",
-    "Paystack live checkout integration with multi-currency billing (KES & RWF)",
-    "Performance improvements and stability fixes"
+    "Fix offline transactions view and fast-path Room cache paging",
+    "Fix offline SMS persistence and background sync deduplication",
+    "Allow seamless past income transaction categorization and editing",
+    "Fix PDF transaction statement extraneous blank page before receipt appendix",
+    "Refine subscription plan details with smooth expanding checklist"
   ],
   "model": {
     "latest_version": 1,
