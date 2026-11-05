@@ -1,10 +1,14 @@
 import React from 'react';
 import { Download, Check, Sparkles, Shield } from 'lucide-react';
-import homeImg from '../assets/home.jpeg';
+import homeLight from '../assets/screenshots/home-light.png';
+import homeDark from '../assets/screenshots/home-dark.png';
 import { useLaunchCountdown } from '../hooks/useLaunchCountdown';
+import { useScreenshotTheme } from '../context/ScreenshotThemeContext';
+import { ScreenshotThemeToggle } from './ScreenshotThemeToggle';
 
 export const Hero: React.FC = () => {
   const { isLive } = useLaunchCountdown();
+  const { theme } = useScreenshotTheme();
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -13,6 +17,8 @@ export const Hero: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const currentHomeImg = theme === 'light' ? homeLight : homeDark;
 
   return (
     <section className="hero reveal">
@@ -60,10 +66,21 @@ export const Hero: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="phone-mockup-wrapper">
-          <div className="badge-green phone-mockup-badge">v1.0 — MVP Release</div>
-          <div className="phone-frame">
-            <img src={homeImg} alt="Mofin Home Screen" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+        <div className="hero-mockup-column">
+          <div className="hero-toggle-bar">
+            <span className="hero-toggle-label">App Preview</span>
+            <ScreenshotThemeToggle size="sm" />
+          </div>
+          <div className="phone-mockup-wrapper">
+            <div className="badge-green phone-mockup-badge">v1.0 — MVP Release</div>
+            <div className="phone-frame">
+              <img
+                key={theme}
+                src={currentHomeImg}
+                alt={`Mofin Home Screen - ${theme === 'light' ? 'Light' : 'Dark'} Mode`}
+                className="phone-screenshot-img"
+              />
+            </div>
           </div>
         </div>
       </div>

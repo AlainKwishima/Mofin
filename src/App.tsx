@@ -8,6 +8,7 @@ import { Terms } from './pages/Terms';
 import { Privacy } from './pages/Privacy';
 import { Contact } from './pages/Contact';
 import { Pricing } from './pages/Pricing';
+import { ScreenshotThemeProvider } from './context/ScreenshotThemeContext';
 
 // Admin Imports
 import { AdminAuthProvider } from './admin/context/AdminAuthContext';
@@ -27,13 +28,15 @@ import { AdminSettings } from './admin/pages/AdminSettings';
 // Public Layout wrapper with standard website navigation
 const PublicLayout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f4f4f5] flex flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <ScreenshotThemeProvider>
+      <div className="min-h-screen bg-[#f4f4f5] flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </ScreenshotThemeProvider>
   );
 };
 
