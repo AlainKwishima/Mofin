@@ -1,16 +1,16 @@
 {
-  "version": "1.2.3",
-  "version_code": 10,
+  "version": "1.2.4",
+  "version_code": 11,
   "download_url": "https://mofin.app/download/mofin.apk",
   "file_size": "22.6 MB",
   "min_android_version": "8.0",
-  "release_date": "2026-11-06",
+  "release_date": "2026-11-07",
   "force_update": false,
   "release_notes": [
-    "Fix offline optimistic balance updates on Home screen and Accounts",
-    "Preserve offline pending transactions so they never disappear upon reconnection",
-    "Auto-recover and retry background outbox sync from crashes or delayed network states",
-    "Reliable SMS detection balance sync with carrier SMS balance superseding"
+    "Fix personalized categories visibility and persistence when offline",
+    "Support offline category creation and deletion with background outbox sync",
+    "Cache custom category icons offline for seamless offline experience",
+    "Fix offline optimistic balance updates and preserve pending transactions"
   ],
   "model": {
     "latest_version": 1,
