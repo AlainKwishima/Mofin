@@ -7,10 +7,10 @@
   "release_date": "2026-11-07",
   "force_update": false,
   "release_notes": [
-    "Fix personalized categories visibility and persistence when offline",
-    "Support offline category creation and deletion with background outbox sync",
-    "Cache custom category icons offline for seamless offline experience",
-    "Fix offline optimistic balance updates and preserve pending transactions"
+    "Filter out archived events and prevent duplicates in transaction notification quick actions",
+    "Add 3-dots overflow menu to event details with PDF transaction history export",
+    "Improve OTP countdown, verification auto-focus, and spam guidance UX",
+    "Format transaction history receipt appendix into a clean 2x2 grid (4 receipts per page)"
   ],
   "model": {
     "latest_version": 1,
