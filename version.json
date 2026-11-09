@@ -1,16 +1,16 @@
 {
-  "version": "1.2.4",
-  "version_code": 11,
+  "version": "1.2.5",
+  "version_code": 12,
   "download_url": "https://mofin.app/download/mofin.apk",
   "file_size": "22.6 MB",
   "min_android_version": "8.0",
-  "release_date": "2026-11-07",
+  "release_date": "2026-11-09",
   "force_update": false,
   "release_notes": [
-    "Filter out archived events and prevent duplicates in transaction notification quick actions",
-    "Add 3-dots overflow menu to event details with PDF transaction history export",
-    "Improve OTP countdown, verification auto-focus, and spam guidance UX",
-    "Format transaction history receipt appendix into a clean 2x2 grid (4 receipts per page)"
+    "Persist uploaded receipt attachments permanently in PostgreSQL across server deployments",
+    "Enable Coil memory/disk image caching and add loading/unavailable placeholders on receipt views",
+    "Prevent silent offline receipt loss during sync retries and fix receipt deletion on transaction edits",
+    "Fix PDF Receipts Appendix rendering directly from stored database attachment bytes"
   ],
   "model": {
     "latest_version": 1,
