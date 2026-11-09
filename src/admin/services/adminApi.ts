@@ -6,7 +6,11 @@ import type {
   UserSubscriptionSummary,
 } from '../types/admin';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
+const DEFAULT_API_BASE = import.meta.env.DEV
+  ? 'http://localhost:3000/v1'
+  : 'https://mofin-backend-production.up.railway.app/v1';
+
+const API_BASE = import.meta.env.VITE_API_URL || DEFAULT_API_BASE;
 
 // Immediately purge any stale mock data keys in localStorage
 try {
@@ -61,6 +65,10 @@ class AdminApiClient {
       if (extracted) message = String(extracted);
     } catch {
       // ignore non-json error body
+    }
+
+    if (res.status === 404 && /route not found|cannot (get|patch|post|delete)/i.test(message)) {
+      message = `Endpoint not found on ${API_BASE} (404). Redeploy Mofin-Backend so the latest API routes are live.`;
     }
 
     throw new Error(message);

@@ -759,7 +759,7 @@ export const AdminAccounts: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '16px',
+            padding: '12px',
             backgroundColor: 'rgba(0,0,0,0.6)',
             backdropFilter: 'blur(4px)',
           }}
@@ -770,25 +770,24 @@ export const AdminAccounts: React.FC = () => {
               borderRadius: '20px',
               maxWidth: '580px',
               width: '100%',
-              maxHeight: '92vh',
-              overflowY: 'auto',
-              padding: '28px',
+              maxHeight: '88dvh',
+              overflow: 'hidden',
               border: '1px solid #ececee',
               position: 'relative',
               display: 'flex',
               flexDirection: 'column',
-              gap: '20px',
             }}
           >
-            <button
-              onClick={() => setModalMode(null)}
-              style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#71717a', cursor: 'pointer' }}
-            >
-              <X size={18} />
-            </button>
+            <div style={{ padding: '20px 20px 14px', borderBottom: '1px solid #f4f4f5', position: 'relative', flexShrink: 0 }}>
+              <button
+                onClick={() => setModalMode(null)}
+                style={{ position: 'absolute', top: '18px', right: '18px', background: 'none', border: 'none', color: '#71717a', cursor: 'pointer', padding: '4px' }}
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
 
-            <div>
-              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#09090b', margin: '0 0 4px 0' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#09090b', margin: '0 28px 4px 0' }}>
                 Manage Subscription — {selectedAccount.username}
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', fontSize: '12px', color: '#71717a' }}>
@@ -807,6 +806,8 @@ export const AdminAccounts: React.FC = () => {
                 </span>
               </div>
             </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px 24px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
 
             {!canManageSubscriptions && (
               <div
@@ -864,7 +865,9 @@ export const AdminAccounts: React.FC = () => {
                       const useRwf = isRwfCurrency(selectedAccount.currency);
                       const rateText = plan
                         ? useRwf
-                          ? `${(plan.priceRwf ?? 0).toLocaleString()} RWF/mo`
+                          ? typeof plan.priceRwf === 'number'
+                            ? `${plan.priceRwf.toLocaleString()} RWF/mo`
+                            : 'RWF unavailable'
                           : `KSH ${plan.price.toLocaleString()}/mo`
                         : '';
                       return (
@@ -1114,6 +1117,7 @@ export const AdminAccounts: React.FC = () => {
                   ))}
                 </div>
               )}
+            </div>
             </div>
           </div>
         </div>

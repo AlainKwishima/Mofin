@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { X, Check, Info, ChevronDown, ShieldCheck } from 'lucide-react';
 import '../styles/pricing.css';
 
+const DEFAULT_API_BASE = import.meta.env.DEV
+  ? 'http://localhost:3000/v1'
+  : 'https://mofin-backend-production.up.railway.app/v1';
+
 type Cadence = 'MONTHLY' | 'ANNUAL' | 'TRIAL';
 
 interface PlanFeature {
@@ -637,7 +641,7 @@ export const Pricing: React.FC = () => {
   // Sync live pricing & quotas from unauthenticated backend endpoint cleanly
   useEffect(() => {
     const controller = new AbortController();
-    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
+    const apiBase = import.meta.env.VITE_API_URL || DEFAULT_API_BASE;
 
     fetch(`${apiBase}/subscriptions/public/plans`, { signal: controller.signal })
       .then((res) => (res.ok ? res.json() : null))
@@ -796,7 +800,7 @@ export const Pricing: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
+      const apiBase = import.meta.env.VITE_API_URL || DEFAULT_API_BASE;
       const token = localStorage.getItem('mofin_access_token') || sessionStorage.getItem('mofin_access_token');
       const headers: Record<string, string> = { 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = `Bearer ${token}`;
