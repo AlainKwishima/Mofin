@@ -148,9 +148,9 @@ export const AdminSettings: React.FC = () => {
               <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#09090b', margin: 0 }}>Role Hierarchy</h2>
             </div>
             <ul style={{ fontSize: '12px', color: '#52525b', margin: 0, paddingLeft: '16px', lineHeight: 1.6 }}>
-              <li><strong>Owner</strong>: Full deletion, export all payments, code authority.</li>
-              <li><strong>Staff</strong>: Manage accounts, complaints, and pass codes.</li>
-              <li><strong>Viewer</strong>: Read-only dashboards and financial ledgers.</li>
+              <li><strong>Owner</strong>: Plan pricing (KES/RWF), account deletion, full exports, and code authority.</li>
+              <li><strong>Staff</strong>: Manage user subscriptions, accounts, complaints, and pass codes.</li>
+              <li><strong>Viewer</strong>: Read-only dashboards, subscription history, and financial ledgers.</li>
             </ul>
           </div>
           <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #f4f4f5', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px' }}>

@@ -1,4 +1,11 @@
 // Real Backend API Client for Mofin Admin Panel - Connecting directly to PostgreSQL
+import type {
+  AdminSubscriptionPlan,
+  SubscriptionAuditItem,
+  UpdateUserSubscriptionPayload,
+  UserSubscriptionSummary,
+} from '../types/admin';
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
 
 // Immediately purge any stale mock data keys in localStorage
@@ -29,12 +36,42 @@ class AdminApiClient {
     return headers;
   }
 
+  private async throwIfNotOk(res: Response, fallbackPrefix: string, isAuthEndpoint = false): Promise<void> {
+    if (res.ok) return;
+
+    if (res.status === 401 && !isAuthEndpoint) {
+      try {
+        sessionStorage.removeItem('mofin_admin_session');
+        localStorage.removeItem('mofin_admin_session');
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('mofin-admin-unauthorized'));
+        }
+      } catch {
+        // ignore storage errors
+      }
+    }
+
+    let message = `${fallbackPrefix}: ${res.statusText}`;
+    try {
+      const errJson = await res.json();
+      const extracted =
+        errJson?.error?.message ||
+        (Array.isArray(errJson?.message) ? errJson.message.join(', ') : errJson?.message) ||
+        (typeof errJson?.error === 'string' ? errJson.error : undefined);
+      if (extracted) message = String(extracted);
+    } catch {
+      // ignore non-json error body
+    }
+
+    throw new Error(message);
+  }
+
   // --- DASHBOARD ---
   async getDashboard() {
     const res = await fetch(`${API_BASE}/admin/dashboard`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Dashboard API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Dashboard API error');
     return res.json();
   }
 
@@ -43,7 +80,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/telemetry/budgets`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Budget telemetry API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Budget telemetry API error');
     return res.json();
   }
 
@@ -51,7 +88,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/telemetry/categories`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Category telemetry API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Category telemetry API error');
     return res.json();
   }
 
@@ -59,18 +96,41 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/telemetry/providers`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Provider telemetry API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Provider telemetry API error');
     return res.json();
   }
 
-  // --- ACCOUNTS ---
+  // --- ACCOUNTS & USER SUBSCRIPTIONS ---
   async getAccounts(search?: string) {
     const url = new URL(`${API_BASE}/admin/accounts`);
     if (search) url.searchParams.set('search', search);
     const res = await fetch(url.toString(), {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Accounts API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Accounts API error');
+    return res.json();
+  }
+
+  async getUserSubscriptionHistory(id: number | string): Promise<SubscriptionAuditItem[]> {
+    const numId = typeof id === 'number' ? id : parseInt(String(id).replace('usr-', ''), 10);
+    const res = await fetch(`${API_BASE}/admin/accounts/${numId}/subscription-history`, {
+      headers: this.getHeaders(),
+    });
+    await this.throwIfNotOk(res, 'Subscription history API error');
+    return res.json();
+  }
+
+  async updateUserSubscription(
+    id: number | string,
+    payload: UpdateUserSubscriptionPayload
+  ): Promise<UserSubscriptionSummary> {
+    const numId = typeof id === 'number' ? id : parseInt(String(id).replace('usr-', ''), 10);
+    const res = await fetch(`${API_BASE}/admin/accounts/${numId}/subscription`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify(payload),
+    });
+    await this.throwIfNotOk(res, 'Subscription update error');
     return res.json();
   }
 
@@ -81,7 +141,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ status }),
     });
-    if (!res.ok) throw new Error(`Account status update error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Account status update error');
     return res.json();
   }
 
@@ -92,7 +152,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ reason }),
     });
-    if (!res.ok) throw new Error(`Delete account error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Delete account error');
     return res.json();
   }
 
@@ -101,7 +161,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/ledgers`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Ledgers API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Ledgers API error');
     return res.json();
   }
 
@@ -112,7 +172,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ status }),
     });
-    if (!res.ok) throw new Error(`Archive ledger error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Archive ledger error');
     return res.json();
   }
 
@@ -121,7 +181,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/payments`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Payments API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Payments API error');
     return res.json();
   }
 
@@ -131,7 +191,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ paymentId, username, phone, feature }),
     });
-    if (!res.ok) throw new Error(`Claim payment error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Claim payment error');
     return res.json();
   }
 
@@ -140,7 +200,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/codes`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Codes API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Codes API error');
     return res.json();
   }
 
@@ -150,7 +210,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error(`Issue code error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Issue code error');
     return res.json();
   }
 
@@ -159,7 +219,7 @@ class AdminApiClient {
       method: 'PATCH',
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Revoke code error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Revoke code error');
     return res.json();
   }
 
@@ -169,7 +229,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ days }),
     });
-    if (!res.ok) throw new Error(`Extend code error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Extend code error');
     return res.json();
   }
 
@@ -178,7 +238,7 @@ class AdminApiClient {
       method: 'PATCH',
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Unlink device error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Unlink device error');
     return res.json();
   }
 
@@ -187,7 +247,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/complaints`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Complaints API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Complaints API error');
     return res.json();
   }
 
@@ -197,7 +257,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ status }),
     });
-    if (!res.ok) throw new Error(`Update complaint error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Update complaint error');
     return res.json();
   }
 
@@ -207,7 +267,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify({ text, author }),
     });
-    if (!res.ok) throw new Error(`Reply complaint error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Reply complaint error');
     return res.json();
   }
 
@@ -225,7 +285,7 @@ class AdminApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error(`Submit complaint error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Submit complaint error', true);
     return res.json();
   }
 
@@ -234,39 +294,30 @@ class AdminApiClient {
       method: 'DELETE',
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Delete complaint error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Delete complaint error');
     return res.json();
   }
 
   // --- SUBSCRIPTION PLANS (Dynamic Tier Configurator & Pricing Governance) ---
-  async getSubscriptionPlans(): Promise<import('../types/admin').AdminSubscriptionPlan[]> {
+  async getSubscriptionPlans(): Promise<AdminSubscriptionPlan[]> {
     const res = await fetch(`${API_BASE}/admin/plans`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Subscription plans API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Subscription plans API error');
     return res.json();
   }
 
   async updateSubscriptionPlan(
     id: number,
-    data: Partial<import('../types/admin').AdminSubscriptionPlan>,
+    data: Partial<AdminSubscriptionPlan>,
     reason: string
-  ): Promise<import('../types/admin').AdminSubscriptionPlan> {
+  ): Promise<AdminSubscriptionPlan> {
     const res = await fetch(`${API_BASE}/admin/plans/${id}`, {
       method: 'PATCH',
       headers: this.getHeaders(),
       body: JSON.stringify({ ...data, reason }),
     });
-    if (!res.ok) {
-      let errMsg = res.statusText;
-      try {
-        const errJson = await res.json();
-        if (errJson.message) errMsg = Array.isArray(errJson.message) ? errJson.message.join(', ') : errJson.message;
-      } catch {
-        // ignore
-      }
-      throw new Error(errMsg);
-    }
+    await this.throwIfNotOk(res, 'Plan update API error');
     return res.json();
   }
 
@@ -275,7 +326,7 @@ class AdminApiClient {
     const res = await fetch(`${API_BASE}/admin/audit-logs`, {
       headers: this.getHeaders(),
     });
-    if (!res.ok) throw new Error(`Audit logs API error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Audit logs API error');
     return res.json();
   }
 
@@ -294,7 +345,7 @@ class AdminApiClient {
       headers: this.getHeaders(),
       body: JSON.stringify(entry),
     });
-    if (!res.ok) throw new Error(`Log audit error: ${res.statusText}`);
+    await this.throwIfNotOk(res, 'Log audit error');
     return res.json();
   }
 
@@ -305,8 +356,17 @@ class AdminApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, pass }),
     });
-    if (!res.ok) throw new Error(`Login API error: ${res.statusText}`);
-    return res.json();
+
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      const errorMsg =
+        data?.error?.message ||
+        data?.message ||
+        data?.error ||
+        `Authentication failed (${res.status})`;
+      return { success: false, error: String(errorMsg) };
+    }
+    return data;
   }
 }
 

@@ -28,6 +28,8 @@ const AdminLayoutInner: React.FC = () => {
       ? 'Financial Providers'
       : sectionRaw === 'accounts'
       ? 'User Accounts'
+      : sectionRaw === 'plans'
+      ? 'Plans & Pricing'
       : sectionRaw === 'ledgers'
       ? 'Events & Ledgers'
       : sectionRaw === 'payments'

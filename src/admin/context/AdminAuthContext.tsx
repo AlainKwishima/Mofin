@@ -12,6 +12,8 @@ interface AdminAuthContextType {
   canDeleteAccount: boolean;
   canExportAllPayments: boolean;
   canModifyCodes: boolean;
+  canManageSubscriptions: boolean;
+  canEditPricing: boolean;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
@@ -19,19 +21,22 @@ const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefin
 const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes idle timeout
 const SESSION_STORAGE_KEY = 'mofin_admin_session';
 
+function isSignedJwt(token: unknown): boolean {
+  return typeof token === 'string' && token.split('.').length === 3;
+}
+
 export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AdminUser | null>(() => {
     try {
       const stored = sessionStorage.getItem(SESSION_STORAGE_KEY) || localStorage.getItem(SESSION_STORAGE_KEY);
-      if (stored) return JSON.parse(stored);
-      if (import.meta.env.DEV && typeof window !== 'undefined' && window.location.search.includes('bypassAuth=true')) {
-        return {
-          id: 'adm-001',
-          name: 'Sarah Kimani',
-          email: 'admin@mofin.app',
-          role: 'OWNER' as AdminRole,
-          lastLogin: new Date().toISOString(),
-        };
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (isSignedJwt(parsed?.token)) {
+          return parsed;
+        }
+        // Purge pre-JWT legacy sessions cleanly so admin signs in once to get a verified token
+        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+        localStorage.removeItem(SESSION_STORAGE_KEY);
       }
       return null;
     } catch {
@@ -48,11 +53,18 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
     setRevealedPhones(new Set());
   }, []);
 
+  // Automatically log out if any admin API request returns 401 Unauthorized
+  useEffect(() => {
+    const onUnauthorized = () => logout();
+    window.addEventListener('mofin-admin-unauthorized', onUnauthorized);
+    return () => window.removeEventListener('mofin-admin-unauthorized', onUnauthorized);
+  }, [logout]);
+
   // Idle timer for 30 minutes
   useEffect(() => {
     if (!user) return;
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const resetTimer = () => {
       clearTimeout(timeoutId);
@@ -76,12 +88,11 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
   const login = async (email: string, pass: string): Promise<{ success: boolean; error?: string }> => {
     const cleanEmail = email.trim().toLowerCase();
 
-    // Call live backend auth endpoint
     try {
       const res = await adminApi.login(cleanEmail, pass);
-      if (res && res.success && res.user) {
+      if (res && res.success && res.token && res.user) {
         const adminUser: AdminUser = {
-          id: res.user.id || 'adm-1',
+          id: res.user.id || 'adm-001',
           email: res.user.email,
           name: res.user.name || 'System Administrator',
           role: (res.user.role === 'SUPER_ADMIN' ? 'OWNER' : res.user.role) as AdminRole,
@@ -91,51 +102,17 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
         sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ ...adminUser, token: res.token }));
         return { success: true };
       }
-    } catch (err) {
-      console.warn('Backend login endpoint unavailable, verifying local credentials:', err);
-    }
-    
-    // Direct system credentials
-    if (cleanEmail === 'admin@mofin.app' && pass === 'Admin@123456') {
-      const adminUser: AdminUser = {
-        id: 'adm-1',
-        email: 'admin@mofin.app',
-        name: 'System Owner',
-        role: 'OWNER',
-        lastLogin: new Date().toISOString(),
-      };
-      setUser(adminUser);
-      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(adminUser));
-      return { success: true };
-    }
 
-    if (cleanEmail === 'staff@mofin.app' && pass === 'Staff@123456') {
-      const staffUser: AdminUser = {
-        id: 'adm-2',
-        email: 'staff@mofin.app',
-        name: 'Support Staff',
-        role: 'STAFF',
-        lastLogin: new Date().toISOString(),
+      return {
+        success: false,
+        error: res?.error || 'Invalid credentials. Please verify your email and password.',
       };
-      setUser(staffUser);
-      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(staffUser));
-      return { success: true };
-    }
-
-    if (cleanEmail === 'viewer@mofin.app' && pass === 'Viewer@123456') {
-      const viewerUser: AdminUser = {
-        id: 'adm-3',
-        email: 'viewer@mofin.app',
-        name: 'Financial Auditor',
-        role: 'VIEWER',
-        lastLogin: new Date().toISOString(),
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err?.message || 'Unable to reach backend authentication server.',
       };
-      setUser(viewerUser);
-      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(viewerUser));
-      return { success: true };
     }
-
-    return { success: false, error: 'Invalid email or password. Use admin@mofin.app / Admin@123456' };
   };
 
   const revealPhone = (accountId: string, username: string, fullPhone: string, reason = 'Administrative verification') => {
@@ -159,6 +136,8 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
   const canDeleteAccount = role === 'OWNER';
   const canExportAllPayments = role === 'OWNER';
   const canModifyCodes = role === 'OWNER' || role === 'STAFF';
+  const canManageSubscriptions = role === 'OWNER' || role === 'STAFF';
+  const canEditPricing = role === 'OWNER';
 
   return (
     <AdminAuthContext.Provider
@@ -172,6 +151,8 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
         canDeleteAccount,
         canExportAllPayments,
         canModifyCodes,
+        canManageSubscriptions,
+        canEditPricing,
       }}
     >
       {children}

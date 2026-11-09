@@ -18,6 +18,44 @@ export interface ProviderBalances {
   cash: number;
 }
 
+export interface UserSubscriptionSummary {
+  hasRecord: boolean;
+  planId: number;
+  planCode: PlanTierCode;
+  planName: string;
+  status: SubscriptionStatus;
+  billingCycle: 'MONTHLY' | 'YEARLY' | string;
+  startedAt: string | null;
+  expiresAt: string | null;
+  graceUntil: string | null;
+  daysRemaining: number;
+  eventsUsedThisCycle: number;
+  maxEventsPerMonth: number;
+}
+
+export interface SubscriptionAuditItem {
+  id: number;
+  previousPlanCode: PlanTierCode | null;
+  previousPlanName: string | null;
+  newPlanCode: PlanTierCode;
+  newPlanName: string;
+  previousStatus: SubscriptionStatus | null;
+  newStatus: SubscriptionStatus;
+  reason: string;
+  actor: string;
+  createdAt: string;
+}
+
+export interface UpdateUserSubscriptionPayload {
+  planCode: PlanTierCode;
+  status: SubscriptionStatus;
+  billingCycle?: 'MONTHLY' | 'YEARLY';
+  durationDays?: number;
+  expiresAt?: string;
+  resetCycleUsage?: boolean;
+  reason: string;
+}
+
 export interface ManagedAccount {
   id: string;
   dbId?: number;
@@ -26,6 +64,7 @@ export interface ManagedAccount {
   maskedPhone: string; // E.g. "0712***345"
   joinedDate: string;
   passStatus: PassStatus;
+  boundCodeId?: number;
   deviceId?: string;
   device?: string;
   isSuspended?: boolean;
@@ -35,6 +74,7 @@ export interface ManagedAccount {
   balance?: number;
   activeLedgersCount?: number;
   totalTransactionsCount?: number;
+  subscription?: UserSubscriptionSummary;
   providers?: ProviderBalances;
 }
 
@@ -144,7 +184,7 @@ export interface AuditLogEntry {
   timestamp: string;
   actorEmail: string;
   actorRole: AdminRole;
-  action: 'REVOKE_CODE' | 'REISSUE_CODE' | 'EXTEND_EXPIRY' | 'UNLINK_DEVICE' | 'SUSPEND_ACCOUNT' | 'DELETE_ACCOUNT' | 'REVEAL_PHONE' | 'EXPORT_DATA' | 'ARCHIVE_LEDGER' | 'REPLY_COMPLAINT' | 'CREATE_CODE' | 'UPDATE_PLAN' | 'CREATE_PLAN';
+  action: 'REVOKE_CODE' | 'REISSUE_CODE' | 'EXTEND_EXPIRY' | 'UNLINK_DEVICE' | 'SUSPEND_ACCOUNT' | 'REACTIVATE_ACCOUNT' | 'DELETE_ACCOUNT' | 'REVEAL_PHONE' | 'EXPORT_DATA' | 'ARCHIVE_LEDGER' | 'REPLY_COMPLAINT' | 'CREATE_CODE' | 'UPDATE_PLAN' | 'CREATE_PLAN' | 'UPDATE_USER_SUBSCRIPTION' | 'CLAIM_PAYMENT' | 'SUBMIT_COMPLAINT' | 'UPDATE_COMPLAINT';
   targetType: 'ACCOUNT' | 'CODE' | 'PAYMENT' | 'COMPLAINT' | 'LEDGER' | 'PLAN' | 'SUBSCRIPTION';
   targetId: string;
   details: string;
@@ -170,6 +210,8 @@ export interface AdminSubscriptionPlan {
   isActive: boolean;
   displayOrder: number;
   activeSubscribersCount?: number;
+  activeSubscribersKesCount?: number;
+  activeSubscribersRwfCount?: number;
   createdAt?: string;
   updatedAt?: string;
 }

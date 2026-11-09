@@ -25,10 +25,33 @@ interface PricingTier {
   featuredBadge?: string;
   price: number;
   priceRwf: number;
+  maxEventsPerMonth: number;
+  maxMoneyPerEvent: number;
+  maxMoneyPerEventRwf: number;
+  receiptPrinting: boolean;
+  customCategories: boolean;
+  fullAnalytics: boolean;
   userCalloutLabel: string;
   userCalloutSubKes: string;
   userCalloutSubRwf: string;
   featureGroups: FeatureGroup[];
+}
+
+interface RemotePublicPlan {
+  id?: number;
+  code: string;
+  name: string;
+  subtitle?: string | null;
+  price: number | string;
+  priceRwf?: number | string | null;
+  maxEventsPerMonth: number;
+  maxMoneyPerEvent: number | string;
+  maxMoneyPerEventRwf?: number | string | null;
+  receiptPrinting?: boolean;
+  customCategories?: boolean;
+  fullAnalytics?: boolean;
+  isActive?: boolean;
+  displayOrder?: number;
 }
 
 // -------------------------------------------------------------
@@ -343,6 +366,12 @@ const PRICING_TIERS: PricingTier[] = [
     subtitle: 'Trackstar: Essential mobile money tracking',
     price: 249,
     priceRwf: 2500,
+    maxEventsPerMonth: 2,
+    maxMoneyPerEvent: 5000,
+    maxMoneyPerEventRwf: 50000,
+    receiptPrinting: true,
+    customCategories: false,
+    fullAnalytics: false,
     userCalloutLabel: '2 Active Events',
     userCalloutSubKes: 'Up to KSH 5,000 per event',
     userCalloutSubRwf: 'Up to 50,000 RWF per event',
@@ -354,6 +383,12 @@ const PRICING_TIERS: PricingTier[] = [
     subtitle: 'Organizer: Scale multiple income and cost pools',
     price: 549,
     priceRwf: 5500,
+    maxEventsPerMonth: 3,
+    maxMoneyPerEvent: 35000,
+    maxMoneyPerEventRwf: 350000,
+    receiptPrinting: true,
+    customCategories: false,
+    fullAnalytics: true,
     userCalloutLabel: '3 Active Events',
     userCalloutSubKes: 'Up to KSH 35,000 per event',
     userCalloutSubRwf: 'Up to 350,000 RWF per event',
@@ -367,6 +402,12 @@ const PRICING_TIERS: PricingTier[] = [
     featuredBadge: 'Most Popular',
     price: 1149,
     priceRwf: 11500,
+    maxEventsPerMonth: 5,
+    maxMoneyPerEvent: 150000,
+    maxMoneyPerEventRwf: 1500000,
+    receiptPrinting: true,
+    customCategories: true,
+    fullAnalytics: true,
     userCalloutLabel: '5 Active Events',
     userCalloutSubKes: 'Up to KSH 150,000 per event',
     userCalloutSubRwf: 'Up to 1,500,000 RWF per event',
@@ -378,12 +419,175 @@ const PRICING_TIERS: PricingTier[] = [
     subtitle: 'Unlimited: Complete governance and API feeds',
     price: 1999,
     priceRwf: 20000,
+    maxEventsPerMonth: 999999,
+    maxMoneyPerEvent: 99999999,
+    maxMoneyPerEventRwf: 99999999,
+    receiptPrinting: true,
+    customCategories: true,
+    fullAnalytics: true,
     userCalloutLabel: 'Unlimited Events',
     userCalloutSubKes: 'Above KSH 150,000 • No cap',
     userCalloutSubRwf: 'Above 1,500,000 RWF • No cap',
     featureGroups: INFINITE_GROUPS,
   },
 ];
+
+function formatEventCallout(tier: {
+  maxEventsPerMonth: number;
+  maxMoneyPerEvent: number;
+  maxMoneyPerEventRwf: number;
+}) {
+  const isUnlimitedEvents = tier.maxEventsPerMonth >= 9999;
+  const userCalloutLabel = isUnlimitedEvents
+    ? 'Unlimited Events'
+    : `${tier.maxEventsPerMonth} Active Event${tier.maxEventsPerMonth === 1 ? '' : 's'}`;
+
+  const isUnlimitedKes = tier.maxMoneyPerEvent >= 9999999;
+  const isUnlimitedRwf = tier.maxMoneyPerEventRwf >= 9999999;
+
+  const userCalloutSubKes = isUnlimitedKes
+    ? 'Unlimited per event • No cap'
+    : `Up to KSH ${tier.maxMoneyPerEvent.toLocaleString()} per event`;
+  const userCalloutSubRwf = isUnlimitedRwf
+    ? 'Unlimited per event • No cap'
+    : `Up to ${tier.maxMoneyPerEventRwf.toLocaleString()} RWF per event`;
+
+  return { userCalloutLabel, userCalloutSubKes, userCalloutSubRwf };
+}
+
+function getResolvedFeatureGroups(tier: PricingTier, currency: 'KES' | 'RWF'): FeatureGroup[] {
+  const isUnlimitedEvents = tier.maxEventsPerMonth >= 9999;
+  const activeCap = currency === 'RWF' ? tier.maxMoneyPerEventRwf : tier.maxMoneyPerEvent;
+  const isUnlimitedCap = activeCap >= 9999999;
+  const capLabel =
+    currency === 'RWF'
+      ? `${activeCap.toLocaleString()} RWF`
+      : `KSH ${activeCap.toLocaleString()}`;
+
+  const eventFeatureIds = new Set(['lite-events', 'plus-events', 'pro-events', 'infinite-events']);
+
+  const groups = tier.featureGroups.map((group) => {
+    const filteredFeatures = group.features
+      .filter((feat) => {
+        if (!tier.receiptPrinting && (feat.id === 'receipt-print' || feat.id === 'receipt-history')) {
+          return false;
+        }
+        if (!tier.customCategories && feat.id === 'custom-cats') {
+          return false;
+        }
+        if (!tier.fullAnalytics && (feat.id === 'full-analytics' || feat.id === 'standard-analytics')) {
+          return false;
+        }
+        return true;
+      })
+      .map((feat) => {
+        if (!eventFeatureIds.has(feat.id)) return feat;
+        const name = isUnlimitedEvents
+          ? 'Unlimited Active Event Budgets'
+          : `${tier.maxEventsPerMonth} Active Event Budget${tier.maxEventsPerMonth === 1 ? '' : 's'}`;
+        const tooltipDesc = isUnlimitedEvents && isUnlimitedCap
+          ? 'Deploy limitless concurrent event budget pools with uncapped transactional limits.'
+          : isUnlimitedEvents
+          ? `Deploy limitless concurrent event budget pools (up to ${capLabel} per event).`
+          : isUnlimitedCap
+          ? `Concurrently manage up to ${tier.maxEventsPerMonth} active event budgets with no per-event spending cap.`
+          : `Concurrently manage up to ${tier.maxEventsPerMonth} active event budget${tier.maxEventsPerMonth === 1 ? '' : 's'} (up to ${capLabel} per event).`;
+
+        return { ...feat, name, tooltipDesc };
+      });
+
+    return {
+      ...group,
+      features: filteredFeatures,
+    };
+  });
+
+  // Ensure enabled dynamic capability toggles appear if admin newly turned them on for a tier
+  if (groups.length > 0 && tier.customCategories) {
+    const hasCustomCats = groups.some((g) => g.features.some((f) => f.id === 'custom-cats'));
+    if (!hasCustomCats) {
+      groups[0] = {
+        ...groups[0],
+        features: [
+          ...groups[0].features,
+          {
+            id: 'custom-cats',
+            name: 'Custom Expense Categories',
+            tooltipTitle: 'Personalized Tags',
+            tooltipDesc: 'Create unique categories, color labels, and icon tags tailored to your events and spending.',
+          },
+        ],
+      };
+    }
+  }
+
+  if (groups.length > 1 && tier.fullAnalytics) {
+    const hasAnalytics = groups.some((g) =>
+      g.features.some((f) => f.id === 'full-analytics' || f.id === 'standard-analytics')
+    );
+    if (!hasAnalytics) {
+      groups[1] = {
+        ...groups[1],
+        features: [
+          ...groups[1].features,
+          {
+            id: 'full-analytics',
+            name: 'Personal & Event Analytics',
+            tooltipTitle: 'Visual Analytics',
+            tooltipDesc: 'Deep visual breakdown of burn rate, week-over-week variances, and category ratios.',
+          },
+        ],
+      };
+    }
+  }
+
+  return groups.filter((g) => g.features.length > 0);
+}
+
+function mergePublicPlansIntoTiers(remotePlans: RemotePublicPlan[], baseTiers: PricingTier[]): PricingTier[] {
+  const paidRemotePlans = remotePlans
+    .filter((p) => p && typeof p.code === 'string' && p.code.toUpperCase() !== 'FREE' && p.isActive !== false)
+    .sort((a, b) => (a.displayOrder ?? 99) - (b.displayOrder ?? 99));
+
+  if (paidRemotePlans.length === 0) {
+    return baseTiers;
+  }
+
+  return paidRemotePlans.map((remote) => {
+    const id = remote.code.toLowerCase();
+    const template = baseTiers.find((t) => t.id === id) || baseTiers[0];
+
+    const maxEventsPerMonth = Number(remote.maxEventsPerMonth ?? template.maxEventsPerMonth);
+    const maxMoneyPerEvent = Number(remote.maxMoneyPerEvent ?? template.maxMoneyPerEvent);
+    const maxMoneyPerEventRwf = Number(
+      remote.maxMoneyPerEventRwf ?? (maxMoneyPerEvent >= 9999999 ? 99999999 : template.maxMoneyPerEventRwf)
+    );
+
+    const callout = formatEventCallout({
+      maxEventsPerMonth,
+      maxMoneyPerEvent,
+      maxMoneyPerEventRwf,
+    });
+
+    return {
+      ...template,
+      id,
+      name: remote.name || template.name,
+      subtitle: remote.subtitle || template.subtitle,
+      price: Number(remote.price ?? template.price),
+      priceRwf: Number(remote.priceRwf ?? template.priceRwf),
+      maxEventsPerMonth,
+      maxMoneyPerEvent,
+      maxMoneyPerEventRwf,
+      receiptPrinting: remote.receiptPrinting ?? template.receiptPrinting,
+      customCategories: remote.customCategories ?? template.customCategories,
+      fullAnalytics: remote.fullAnalytics ?? template.fullAnalytics,
+      userCalloutLabel: callout.userCalloutLabel,
+      userCalloutSubKes: callout.userCalloutSubKes,
+      userCalloutSubRwf: callout.userCalloutSubRwf,
+    };
+  });
+}
 
 const FAQS = [
   {
@@ -413,6 +617,7 @@ const FAQS = [
 ];
 
 export const Pricing: React.FC = () => {
+  const [tiers, setTiers] = useState<PricingTier[]>(PRICING_TIERS);
   const [promoBannerVisible, setPromoBannerVisible] = useState(true);
   const [cadence, setCadence] = useState<Cadence>('MONTHLY');
   const [currency, setCurrency] = useState<'KES' | 'RWF'>('KES');
@@ -428,6 +633,30 @@ export const Pricing: React.FC = () => {
   const [checkoutPassCode, setCheckoutPassCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
+
+  // Sync live pricing & quotas from unauthenticated backend endpoint cleanly
+  useEffect(() => {
+    const controller = new AbortController();
+    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3000/v1';
+
+    fetch(`${apiBase}/subscriptions/public/plans`, { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((payload) => {
+        const list = Array.isArray(payload)
+          ? payload
+          : Array.isArray(payload?.data)
+          ? payload.data
+          : null;
+        if (list && list.length > 0) {
+          setTiers(mergePublicPlansIntoTiers(list, PRICING_TIERS));
+        }
+      })
+      .catch(() => {
+        // Keep instant static PRICING_TIERS fallback when API is offline
+      });
+
+    return () => controller.abort();
+  }, []);
 
   // References for sliding pill positioning
   const monthlyRef = useRef<HTMLLabelElement>(null);
@@ -504,7 +733,16 @@ export const Pricing: React.FC = () => {
     }
   }, []);
 
-  const selectedPlan = PRICING_TIERS.find((p) => p.id === selectedPlanId) || PRICING_TIERS[2];
+  const selectedPlan =
+    tiers.find((p) => p.id === selectedPlanId) ||
+    tiers.find((p) => p.featured) ||
+    tiers[0] ||
+    PRICING_TIERS[2];
+  const featuredPromoTier =
+    tiers.find((p) => p.id === 'pro') ||
+    tiers.find((p) => p.featured) ||
+    tiers[0] ||
+    PRICING_TIERS[2];
 
   const getPriceData = (plan: PricingTier) => {
     const isRwf = currency === 'RWF';
@@ -637,21 +875,23 @@ export const Pricing: React.FC = () => {
             <div className="qb-stack qb-stack--center">
               <span className="promo-exit-modal-badge">Most Popular</span>
               <h2 className="qb-h3" style={{ marginBottom: '0.35rem' }}>
-                Automate with Mofin Pro
+                Automate with {featuredPromoTier.name}
               </h2>
               <p className="qb-body" style={{ color: 'var(--color-steel)', marginBottom: '1.25rem' }}>
-                Automate your Daraja M-Pesa expense tracking, 5 dedicated event budgets up to KSH 150,000, and cash flow governance effortlessly.
+                Automate your Daraja M-Pesa expense tracking, {featuredPromoTier.userCalloutLabel.toLowerCase()} (
+                {currency === 'RWF' ? featuredPromoTier.userCalloutSubRwf : featuredPromoTier.userCalloutSubKes}
+                ), and cash flow governance effortlessly.
               </p>
               <button
                 type="button"
                 onClick={() => {
                   setExitModalOpen(false);
-                  handleSelectPlan('pro');
+                  handleSelectPlan(featuredPromoTier.id);
                 }}
                 className="qb-button qb-button--green qb-button--medium"
                 style={{ width: '100%', maxWidth: '16rem' }}
               >
-                Choose Mofin Pro
+                Choose {featuredPromoTier.name}
               </button>
             </div>
           </div>
@@ -791,9 +1031,10 @@ export const Pricing: React.FC = () => {
                 Mofin Plans
               </h2>
               <ul className="qb-pricing-flow-cards" role="list">
-                {PRICING_TIERS.map((tier) => {
+                {tiers.map((tier) => {
                   const pricing = getPriceData(tier);
                   const isFeatured = tier.featured;
+                  const resolvedGroups = getResolvedFeatureGroups(tier, currency);
 
                   return (
                     <li key={tier.id} id={`plan-card-${tier.id}`} className="qb-pricing-flow-card-item">
@@ -840,7 +1081,7 @@ export const Pricing: React.FC = () => {
 
                         {/* Feature Groups Accordions */}
                         <div className="qb-pricing-flow-feature-groups">
-                          {tier.featureGroups.map((group, gIdx) => (
+                          {resolvedGroups.map((group, gIdx) => (
                             <details key={gIdx} className="qb-pricing-flow-feature-group" open>
                               <summary className="qb-pricing-flow-feature-group-title">
                                 <span className="qb-pricing-flow-feature-group-label">
