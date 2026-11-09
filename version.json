@@ -1,16 +1,16 @@
 {
-  "version": "1.2.5",
-  "version_code": 12,
+  "version": "1.2.6",
+  "version_code": 13,
   "download_url": "https://mofin.app/download/mofin.apk",
-  "file_size": "22.6 MB",
+  "file_size": "22.7 MB",
   "min_android_version": "8.0",
   "release_date": "2026-11-09",
   "force_update": false,
   "release_notes": [
-    "Persist uploaded receipt attachments permanently in PostgreSQL across server deployments",
-    "Enable Coil memory/disk image caching and add loading/unavailable placeholders on receipt views",
-    "Prevent silent offline receipt loss during sync retries and fix receipt deletion on transaction edits",
-    "Fix PDF Receipts Appendix rendering directly from stored database attachment bytes"
+    "Include M-Pesa and MTN MoMo transaction fees in wallet balance, budget, and analytics calculations",
+    "Prevent balance drift and false adjustments when delayed SMS notifications arrive out of order or offline",
+    "Filter out Safaricom/MTN promo recaps, OTPs, failed alerts, and Fuliza notices while improving merchant and Mokash/Intouch/FDI parsing",
+    "Instant wallet balance refresh with live offline outbox synchronization and safe quick-categorization"
   ],
   "model": {
     "latest_version": 1,
